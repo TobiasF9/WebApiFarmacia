@@ -8,5 +8,6 @@ namespace Modelo.DTO
 {
     internal class ProductDTO
     {
+
     }
 }
