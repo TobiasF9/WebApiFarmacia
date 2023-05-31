@@ -13,6 +13,6 @@ namespace Service
         public string Name { get; set; }
         public string Description { get; set; }
         public int Price { get; set; }
-        public int Manufacturer { get; set; }
+        public string Manufacturer { get; set; }
     }
 }

@@ -6,8 +6,12 @@ using System.Threading.Tasks;
 
 namespace Modelo.DTO
 {
-    internal class ProductDTO
+    public class ProductDTO
     {
-
+        public int IdProduct { get; set; }
+        public string Name { get; set; }
+        //public string Description { get; set; }
+        public int Price { get; set; }
+        public string Manufacturer { get; set; }
     }
 }

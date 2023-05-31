@@ -5,11 +5,11 @@ VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiFarmacia", "WebApiFarmacia\WebApiFarmacia.csproj", "{B7A48302-B149-4452-8984-4AAC1BCAB3C6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Model", "Modelo\Model.csproj", "{9AD1C104-F718-40E3-985E-F2A6A5585B8B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Modelo\Models.csproj", "{9AD1C104-F718-40E3-985E-F2A6A5585B8B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service", "Service\Service.csproj", "{CB55DD2B-297F-4920-86AB-FF0127CE17DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Service\Services.csproj", "{CB55DD2B-297F-4920-86AB-FF0127CE17DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Data\Data.csproj", "{E35FB7E7-62A5-4044-9044-1C126852AD22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "Data\Data.csproj", "{E35FB7E7-62A5-4044-9044-1C126852AD22}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
