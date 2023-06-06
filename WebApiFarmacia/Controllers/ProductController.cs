@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Modelo.DTO;
-using Service;
 using System.Collections.Generic;
+using Services.Implementations;
 
 namespace WebApiFarmacia.Controllers
 {
@@ -48,7 +48,7 @@ namespace WebApiFarmacia.Controllers
             return Ok(response);
         }
         [HttpDelete("DeleteProducto/{id}")]
-        public ActionResult<ProductDTO> DeleteProducto(int id)
+        public ActionResult<ProductDTO> DeleteProduct(int id)
         {
             var response = _productService.RemoveProduct(id);
 

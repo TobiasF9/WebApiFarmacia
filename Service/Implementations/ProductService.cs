@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Service
+namespace Services.Implementations
 {
     public class ProductService
     {
+        //static List<ProductDTO> productsList = new List<ProductDTO>();
         public List<ProductDTO> GetProductsList()
         {
             var productsList = new List<ProductDTO>();
