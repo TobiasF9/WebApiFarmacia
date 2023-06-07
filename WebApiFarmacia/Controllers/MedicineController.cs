@@ -4,7 +4,7 @@ using Models.DTO;
 using System.Collections.Generic;
 using Services.Implementations;
 
-namespace WebApiFarmacia.Controllers
+namespace WebApiMedicines.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -41,7 +41,7 @@ namespace WebApiFarmacia.Controllers
         }
         
         [HttpPut("PutMedicine/{id}")]
-        public ActionResult<MedicineDTO> ModifyMedicine(int id, [FromBody] MedicineDTO product)
+        public ActionResult<MedicineDTO> ModifyMedicine(int id, [From] MedicineDTO product)
         {
             var response = _medicineService.ModifyMedicine(id, product);
 

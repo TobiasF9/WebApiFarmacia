@@ -4,13 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Models.DTO
+namespace Models.ViewModel
 {
-    public class CustomerDTO
+    public class SellerViewModel
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
-        public int? DNI { get; set; }
-        public float Balance { get; set; }
+        public float? Balance { get; set; }
     }
 }

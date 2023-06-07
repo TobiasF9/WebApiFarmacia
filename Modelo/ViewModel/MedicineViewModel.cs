@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Models.DTO
+namespace Models.ViewModel
 {
-    public class MedicineDTO
+    public class MedicineViewModel
     {
         public int IdMedicine { get; set; }
-        public string Name { get; set; } = string.Empty;
+        public string Name { get; set; }
         //public string Description { get; set; }
-        public int? Price { get; set; }
-        public string Manufacturer { get; set; } = string.Empty;
+        public int Price { get; set; }
+        public string Manufacturer { get; set; }
     }
 }

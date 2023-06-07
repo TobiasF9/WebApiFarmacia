@@ -10,27 +10,27 @@ namespace Services.Implementations
     public class CustomerService
     {
         //inyeccion de dependencia que nos va a ser util despues de crear la base de datos
-        //private readonly OrganizacionContext _context;
-        //public OrganizacionService(OrganizacionContext _context)
-        //{
-        //    this._context = _context;
-        //}
+        private readonly MedicinesAPIContext _context;
+        public CustomerService(MedicinesAPIContext _context)
+        {
+            this._context = _context;
+        }
 
-        //public List<EmpleadoDTO> GetListadoEmpleados()
-        //{
-        //    var usuario = _context.Empleado.ToList();
-        //    var usuarioResponse = new List<EmpleadoDTO>();
+        public List<EmpleadoDTO> GetListadoEmpleados()
+        {
+            var usuario = _context.Empleado.ToList();
+            var usuarioResponse = new List<EmpleadoDTO>();
 
-        //    foreach (var usu in usuario)
-        //    {
-        //        usuarioResponse.Add(new EmpleadoDTO()
-        //        {
-        //            Id = usu.Id,
-        //            Nombre = usu.Nombre
-        //        });
-        //    }
+            foreach (var usu in usuario)
+            {
+                usuarioResponse.Add(new EmpleadoDTO()
+                {
+                    Id = usu.Id,
+                    Nombre = usu.Nombre
+                });
+            }
 
-        //    return usuarioResponse;
-        //}
+            return usuarioResponse;
+        }
     }
 }

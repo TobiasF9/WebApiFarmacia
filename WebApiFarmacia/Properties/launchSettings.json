@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "WebApiFarmacia": {
+    "WebApiMedicines": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,

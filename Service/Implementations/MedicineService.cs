@@ -10,7 +10,7 @@ namespace Services.Implementations
 {
     public class MedicineService : IMedicineService
     {
-        //static List<ProductDTO> productsList = new List<ProductDTO>();
+        static List<MedicineDTO> productsList = new List<MedicineDTO>();
         public List<MedicineDTO> GetMedicineList()
         {
             var productsList = new List<MedicineDTO>();
@@ -19,7 +19,7 @@ namespace Services.Implementations
             {
                 productsList.Add(new MedicineDTO()
                 {
-                    IdProduct = i,
+                    IdMedicine = i,
                     Name = "Aspirina",
                     Price = 2500,
                     Manufacturer = "Bayer"
@@ -36,14 +36,14 @@ namespace Services.Implementations
             {
                 productsList.Add(new MedicineDTO()
                 {
-                    IdProduct = i,
+                    IdMedicine = i,
                     Name = "Aspirina",
                     Price = 2500,
                     Manufacturer = "Bayer"
                 });
             }
 
-            MedicineDTO product = productsList.Where(x => x.IdProduct == id).First();
+            MedicineDTO product = productsList.Where(x => x.IdMedicine == id).First();
 
             return product;
         }
@@ -55,7 +55,7 @@ namespace Services.Implementations
             {
                 productsList.Add(new MedicineDTO()
                 {
-                    IdProduct = i,
+                    IdMedicine = i,
                     Name = "Aspirina",
                     Price = 2500,
                     Manufacturer = "Bayer"
@@ -74,15 +74,15 @@ namespace Services.Implementations
             {
                 productsList.Add(new MedicineDTO()
                 {
-                    IdProduct = i,
+                    IdMedicine = i,
                     Name = "Aspirina",
                     Price = 2500,
                     Manufacturer = "Bayer"
                 });
             }
 
-            var productToModify = productsList.Where(x => x.IdProduct == id).First();
-            productToModify.IdProduct = producto.IdProduct;
+            var productToModify = productsList.Where(x => x.IdMedicine == id).First();
+            productToModify.IdMedicine = producto.IdMedicine;
             productToModify.Name = producto.Name;
             productToModify.Price = producto.Price;
             productToModify.Manufacturer = producto.Manufacturer;
@@ -97,14 +97,14 @@ namespace Services.Implementations
             {
                 productsList.Add(new MedicineDTO()
                 {
-                    IdProduct = i,
+                    IdMedicine = i,
                     Name = "Aspirina",
                     Price = 2500,
                     Manufacturer = "Bayer"
                 });
             }
 
-            var productToDelete = productsList.Where(x => x.IdProduct == id).First();
+            var productToDelete = productsList.Where(x => x.IdMedicine == id).First();
             productsList.Remove(productToDelete);
 
             return productsList;

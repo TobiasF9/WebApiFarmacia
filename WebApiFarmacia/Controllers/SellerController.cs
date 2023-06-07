@@ -4,7 +4,7 @@ using Models.DTO;
 using Models.DTO;
 using Services.Implementations;
 
-namespace WebApiFarmacia.Controllers
+namespace WebApiMedicines.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
