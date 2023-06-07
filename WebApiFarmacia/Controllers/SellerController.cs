@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Modelo.DTO;
+using Models.DTO;
 using Models.DTO;
 using Services.Implementations;
 

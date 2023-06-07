@@ -1,4 +1,5 @@
-﻿using Modelo.DTO;
+﻿using Models.DTO;
+using Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,16 +8,16 @@ using System.Threading.Tasks;
 
 namespace Services.Implementations
 {
-    public class ProductService
+    public class MedicineService : IMedicineService
     {
         //static List<ProductDTO> productsList = new List<ProductDTO>();
-        public List<ProductDTO> GetProductsList()
+        public List<MedicineDTO> GetMedicineList()
         {
-            var productsList = new List<ProductDTO>();
+            var productsList = new List<MedicineDTO>();
 
             for (int i = 0; i < 4; i++)
             {
-                productsList.Add(new ProductDTO()
+                productsList.Add(new MedicineDTO()
                 {
                     IdProduct = i,
                     Name = "Aspirina",
@@ -27,13 +28,13 @@ namespace Services.Implementations
             return productsList;
 
         }
-        public ProductDTO GetProductoById(int id)
+        public MedicineDTO GetMedicineById(int id)
         {
-            var productsList = new List<ProductDTO>();
+            var productsList = new List<MedicineDTO>();
 
             for (int i = 0; i < 4; i++)
             {
-                productsList.Add(new ProductDTO()
+                productsList.Add(new MedicineDTO()
                 {
                     IdProduct = i,
                     Name = "Aspirina",
@@ -42,17 +43,17 @@ namespace Services.Implementations
                 });
             }
 
-            ProductDTO product = productsList.Where(x => x.IdProduct == id).First();
+            MedicineDTO product = productsList.Where(x => x.IdProduct == id).First();
 
             return product;
         }
-        public ProductDTO CreateProduct(ProductDTO product)
+        public MedicineDTO CreateMedicine(MedicineDTO product)
         {
-            var productsList = new List<ProductDTO>();
+            var productsList = new List<MedicineDTO>();
 
             for (int i = 0; i < 4; i++)
             {
-                productsList.Add(new ProductDTO()
+                productsList.Add(new MedicineDTO()
                 {
                     IdProduct = i,
                     Name = "Aspirina",
@@ -65,13 +66,13 @@ namespace Services.Implementations
 
             return product;
         }
-        public List<ProductDTO> ModifyProduct(int id, ProductDTO producto)
+        public List<MedicineDTO> ModifyMedicine(int id, MedicineDTO producto)
         {
-            var productsList = new List<ProductDTO>();
+            var productsList = new List<MedicineDTO>();
 
             for (int i = 0; i < 4; i++)
             {
-                productsList.Add(new ProductDTO()
+                productsList.Add(new MedicineDTO()
                 {
                     IdProduct = i,
                     Name = "Aspirina",
@@ -88,13 +89,13 @@ namespace Services.Implementations
 
             return productsList;
         }
-        public List<ProductDTO> RemoveProduct(int id)
+        public List<MedicineDTO> RemoveMedicine(int id)
         {
-            var productsList = new List<ProductDTO>();
+            var productsList = new List<MedicineDTO>();
 
             for (int i = 0; i < 4; i++)
             {
-                productsList.Add(new ProductDTO()
+                productsList.Add(new MedicineDTO()
                 {
                     IdProduct = i,
                     Name = "Aspirina",

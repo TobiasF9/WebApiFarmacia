@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Modelo.DTO
+namespace Etities
 {
-    public class ProductDTO
+    public class Medicine
     {
-        public int IdProduct { get; set; }
+        
+        public int Id { get; set; }
         public string Name { get; set; }
-        //public string Description { get; set; }
+        public string Description { get; set; }
         public int Price { get; set; }
         public string Manufacturer { get; set; }
     }
