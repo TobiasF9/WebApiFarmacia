@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Models.DTO;
 using System.Collections.Generic;
 using Services.Implementations;
+using Services.Interfaces;
 
 namespace WebApiMedicines.Controllers
 {
@@ -10,11 +11,11 @@ namespace WebApiMedicines.Controllers
     [ApiController]
     public class MedicineController : ControllerBase
     {
-        private readonly MedicineService _medicineService = new MedicineService();
+        private readonly IMedicineService _medicineService;
 
-        public MedicineController()
+        public MedicineController(IMedicineService medicineService)
         {
-
+            _medicineService = medicineService;
         }
 
         [HttpGet("GetMedicineList")]
@@ -41,7 +42,7 @@ namespace WebApiMedicines.Controllers
         }
         
         [HttpPut("PutMedicine/{id}")]
-        public ActionResult<MedicineDTO> ModifyMedicine(int id, [From] MedicineDTO product)
+        public ActionResult<MedicineDTO> ModifyMedicine(int id, [FromBody] MedicineDTO product)
         {
             var response = _medicineService.ModifyMedicine(id, product);
 

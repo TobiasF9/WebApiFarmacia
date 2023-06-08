@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Models.DTO;
 using Services.Implementations;
+using Services.Interfaces;
 
 namespace WebApiMedicines.Controllers
 {
@@ -9,7 +10,12 @@ namespace WebApiMedicines.Controllers
     [ApiController]
     public class CustomerController : ControllerBase
     {
-        private readonly CustomerService _customerService = new CustomerService();
+        private readonly ICustomerService _customerService;
+
+        public CustomerController(ICustomerService customerService)
+        {
+            _customerService = customerService;
+        }
 
         [HttpGet("GetCustomerList")]
         public ActionResult<List<CustomerDTO>> GetCustomerList()

@@ -5,7 +5,7 @@ VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiMedicines", "WebApiFarmacia\WebApiMedicines.csproj", "{B7A48302-B149-4452-8984-4AAC1BCAB3C6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Modelo\Models.csproj", "{9AD1C104-F718-40E3-985E-F2A6A5585B8B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Model", "Modelo\Model.csproj", "{9AD1C104-F718-40E3-985E-F2A6A5585B8B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Service\Services.csproj", "{CB55DD2B-297F-4920-86AB-FF0127CE17DC}"
 EndProject

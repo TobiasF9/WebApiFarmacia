@@ -15,7 +15,15 @@
    "SelectedToBeGenerated": 0,
    "Tables": [
       {
+         "Name": "[dbo].[Customers]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[Medicines]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Sells]",
          "ObjectType": 0
       }
    ],

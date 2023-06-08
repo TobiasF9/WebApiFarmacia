@@ -10,50 +10,23 @@ namespace Services.Implementations
 {
     public class MedicineService : IMedicineService
     {
-        static List<MedicineDTO> productsList = new List<MedicineDTO>();
+        static List<MedicineDTO> medicinesList = new List<MedicineDTO>();
         public List<MedicineDTO> GetMedicineList()
-        {
-            var productsList = new List<MedicineDTO>();
-
-            for (int i = 0; i < 4; i++)
-            {
-                productsList.Add(new MedicineDTO()
-                {
-                    IdMedicine = i,
-                    Name = "Aspirina",
-                    Price = 2500,
-                    Manufacturer = "Bayer"
-                });
-            }
-            return productsList;
-
+        {          
+            return medicinesList;
         }
         public MedicineDTO GetMedicineById(int id)
         {
-            var productsList = new List<MedicineDTO>();
-
-            for (int i = 0; i < 4; i++)
-            {
-                productsList.Add(new MedicineDTO()
-                {
-                    IdMedicine = i,
-                    Name = "Aspirina",
-                    Price = 2500,
-                    Manufacturer = "Bayer"
-                });
-            }
-
-            MedicineDTO product = productsList.Where(x => x.IdMedicine == id).First();
-
-            return product;
+            MedicineDTO medicine = medicinesList.Where(x => x.IdMedicine == id).First();
+            return medicine;
         }
         public MedicineDTO CreateMedicine(MedicineDTO product)
         {
-            var productsList = new List<MedicineDTO>();
+            var medicinesList = new List<MedicineDTO>();
 
             for (int i = 0; i < 4; i++)
             {
-                productsList.Add(new MedicineDTO()
+                medicinesList.Add(new MedicineDTO()
                 {
                     IdMedicine = i,
                     Name = "Aspirina",
@@ -62,17 +35,17 @@ namespace Services.Implementations
                 });
             }
 
-            productsList.Add(product);
+            medicinesList.Add(product);
 
             return product;
         }
         public List<MedicineDTO> ModifyMedicine(int id, MedicineDTO producto)
         {
-            var productsList = new List<MedicineDTO>();
+            var medicinesList = new List<MedicineDTO>();
 
             for (int i = 0; i < 4; i++)
             {
-                productsList.Add(new MedicineDTO()
+                medicinesList.Add(new MedicineDTO()
                 {
                     IdMedicine = i,
                     Name = "Aspirina",
@@ -81,21 +54,21 @@ namespace Services.Implementations
                 });
             }
 
-            var productToModify = productsList.Where(x => x.IdMedicine == id).First();
+            var productToModify = medicinesList.Where(x => x.IdMedicine == id).First();
             productToModify.IdMedicine = producto.IdMedicine;
             productToModify.Name = producto.Name;
             productToModify.Price = producto.Price;
             productToModify.Manufacturer = producto.Manufacturer;
 
-            return productsList;
+            return medicinesList;
         }
         public List<MedicineDTO> RemoveMedicine(int id)
         {
-            var productsList = new List<MedicineDTO>();
+            var medicinesList = new List<MedicineDTO>();
 
             for (int i = 0; i < 4; i++)
             {
-                productsList.Add(new MedicineDTO()
+                medicinesList.Add(new MedicineDTO()
                 {
                     IdMedicine = i,
                     Name = "Aspirina",
@@ -104,10 +77,10 @@ namespace Services.Implementations
                 });
             }
 
-            var productToDelete = productsList.Where(x => x.IdMedicine == id).First();
-            productsList.Remove(productToDelete);
+            var productToDelete = medicinesList.Where(x => x.IdMedicine == id).First();
+            medicinesList.Remove(productToDelete);
 
-            return productsList;
+            return medicinesList;
         }
     }
 }
