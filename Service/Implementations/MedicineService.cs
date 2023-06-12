@@ -1,4 +1,5 @@
-﻿using Models.DTO;
+﻿using Model.Models;
+using Models.DTO;
 using Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -10,75 +11,104 @@ namespace Services.Implementations
 {
     public class MedicineService : IMedicineService
     {
-        static List<MedicineDTO> medicinesList = new List<MedicineDTO>();
+        private readonly MedicinesAPIContext _context;
+
+        public MedicineService(MedicinesAPIContext context)
+        {
+            _context = context;
+        }
         public List<MedicineDTO> GetMedicineList()
-        {          
-            return medicinesList;
+        {
+            var medicine = _context.Medicines.ToList();
+            var response = new List<MedicineDTO>();
+
+            foreach (var x in medicine)
+            {
+                response.Add(new MedicineDTO()
+                {
+                    IdMedicine = x.IdMedicine,
+                    Name = x.Name,
+                    Price = x.Price,
+                    Manufacturer = x.Manufacturer
+                });
+            }
+
+            return response;
         }
         public MedicineDTO GetMedicineById(int id)
         {
-            MedicineDTO medicine = medicinesList.Where(x => x.IdMedicine == id).First();
-            return medicine;
+            var medicine = _context.Medicines.ToList().Where(x => x.IdMedicine == id).First();
+            //usamos un inicializador de objeto
+            var response = new MedicineDTO()
+            {
+                IdMedicine = medicine.IdMedicine,
+                Name = medicine.Name,
+                Price = medicine.Price,
+                Manufacturer = medicine.Manufacturer
+            };
+            return response;
         }
         public MedicineDTO CreateMedicine(MedicineDTO product)
         {
+            var medicine = _context.Medicines.ToList();
             var medicinesList = new List<MedicineDTO>();
 
-            for (int i = 0; i < 4; i++)
+            foreach (var x in medicine)
             {
                 medicinesList.Add(new MedicineDTO()
                 {
-                    IdMedicine = i,
-                    Name = "Aspirina",
-                    Price = 2500,
-                    Manufacturer = "Bayer"
+                    IdMedicine = x.IdMedicine,
+                    Name = x.Name,
+                    Price = x.Price,
+                    Manufacturer = x.Manufacturer
                 });
             }
 
             medicinesList.Add(product);
-
             return product;
         }
-        public List<MedicineDTO> ModifyMedicine(int id, MedicineDTO producto)
+        public List<MedicineDTO> ModifyMedicine(int id, MedicineDTO product)
         {
+            var medicine = _context.Medicines.ToList();
             var medicinesList = new List<MedicineDTO>();
 
-            for (int i = 0; i < 4; i++)
+            foreach (var x in medicine)
             {
                 medicinesList.Add(new MedicineDTO()
                 {
-                    IdMedicine = i,
-                    Name = "Aspirina",
-                    Price = 2500,
-                    Manufacturer = "Bayer"
+                    IdMedicine = x.IdMedicine,
+                    Name = x.Name,
+                    Price = x.Price,
+                    Manufacturer = x.Manufacturer
                 });
             }
 
-            var productToModify = medicinesList.Where(x => x.IdMedicine == id).First();
-            productToModify.IdMedicine = producto.IdMedicine;
-            productToModify.Name = producto.Name;
-            productToModify.Price = producto.Price;
-            productToModify.Manufacturer = producto.Manufacturer;
+            var medicineToModify = medicinesList.Where(x => x.IdMedicine == id).First();
+            medicineToModify.IdMedicine = product.IdMedicine;
+            medicineToModify.Name = product.Name;
+            medicineToModify.Price = product.Price;
+            medicineToModify.Manufacturer = product.Manufacturer;
 
             return medicinesList;
         }
         public List<MedicineDTO> RemoveMedicine(int id)
         {
+            var medicine = _context.Medicines.ToList();
             var medicinesList = new List<MedicineDTO>();
 
-            for (int i = 0; i < 4; i++)
+            foreach (var x in medicine)
             {
                 medicinesList.Add(new MedicineDTO()
                 {
-                    IdMedicine = i,
-                    Name = "Aspirina",
-                    Price = 2500,
-                    Manufacturer = "Bayer"
+                    IdMedicine = x.IdMedicine,
+                    Name = x.Name,
+                    Price = x.Price,
+                    Manufacturer = x.Manufacturer
                 });
             }
 
-            var productToDelete = medicinesList.Where(x => x.IdMedicine == id).First();
-            medicinesList.Remove(productToDelete);
+            var medicineToDelete = medicinesList.Where(x => x.IdMedicine == id).First();
+            medicinesList.Remove(medicineToDelete);
 
             return medicinesList;
         }

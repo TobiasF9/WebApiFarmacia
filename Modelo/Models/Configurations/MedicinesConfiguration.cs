@@ -2,11 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Model.Models;
 using System;
 using System.Collections.Generic;
-using WebApiMedicines.Models;
 
-namespace WebApiMedicines.Models.Configurations
+namespace Model.Models.Configurations
 {
     public partial class MedicinesConfiguration : IEntityTypeConfiguration<Medicines>
     {

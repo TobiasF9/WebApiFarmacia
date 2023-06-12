@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Services.Implementations
 {
-    public class SellerService
+    public class SellsService
     {
 
     }

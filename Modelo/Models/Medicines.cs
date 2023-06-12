@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace WebApiMedicines.Models
+namespace Model.Models
 {
     public partial class Medicines
     {

@@ -3,13 +3,14 @@
 using System;
 using System.Collections.Generic;
 
-namespace WebApiMedicines.Models
+namespace Model.Models
 {
-    public partial class Customers
+    public partial class User
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int? Dni { get; set; }
-        public decimal? Balance { get; set; }
+        public int IdRole { get; set; }
+
+        public virtual Role IdRoleNavigation { get; set; }
     }
 }

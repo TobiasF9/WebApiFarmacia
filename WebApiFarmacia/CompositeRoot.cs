@@ -7,9 +7,9 @@ namespace WebApiMedicines
     {
         public static void DependencyInjection(WebApplicationBuilder builder)
         {
-            builder.Services.AddScoped<ICustomerService, CustomerService>();
+            builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IMedicineService, MedicineService>();
-            builder.Services.AddScoped<ISellerService, SellerService>();
+            //builder.Services.AddScoped<ISellsService, SellsService>();
         }
     }
 }

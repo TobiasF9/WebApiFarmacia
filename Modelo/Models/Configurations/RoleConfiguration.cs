@@ -8,17 +8,19 @@ using System.Collections.Generic;
 
 namespace Model.Models.Configurations
 {
-    public partial class SellsConfiguration : IEntityTypeConfiguration<Sells>
+    public partial class RoleConfiguration : IEntityTypeConfiguration<Role>
     {
-        public void Configure(EntityTypeBuilder<Sells> entity)
+        public void Configure(EntityTypeBuilder<Role> entity)
         {
-            entity.HasKey(e => new { e.IdMedicine, e.IdUser });
+            entity.Property(e => e.Id).HasColumnName("id");
 
-            entity.Property(e => e.Amount).HasColumnType("decimal(18, 0)");
+            entity.Property(e => e.Description)
+                .HasMaxLength(250)
+                .HasColumnName("description");
 
             OnConfigurePartial(entity);
         }
 
-        partial void OnConfigurePartial(EntityTypeBuilder<Sells> entity);
+        partial void OnConfigurePartial(EntityTypeBuilder<Role> entity);
     }
 }

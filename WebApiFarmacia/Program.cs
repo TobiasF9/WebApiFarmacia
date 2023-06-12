@@ -2,7 +2,7 @@ using WebApiMedicines;
 using Microsoft.EntityFrameworkCore;
 using Services.Interfaces;
 using Services.Implementations;
-using WebApiMedicines.Models;
+using Model.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
