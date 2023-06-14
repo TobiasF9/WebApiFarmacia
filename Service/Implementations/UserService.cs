@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Model.Models;
+using Models.DTO;
 
 namespace Services.Implementations
 {
@@ -18,29 +19,67 @@ namespace Services.Implementations
             this._context = _context;
         }
 
-        public UserDTO CreateUser(UserDTO user)
+        public List<UserDTO> GetUserList()
         {
-            throw new NotImplementedException();
+            var users = _context.User.ToList();
+            var response = new List<UserDTO>();
+
+            foreach (var x in users)
+            {
+                response.Add(new UserDTO()
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    IdRole = x.IdRole
+                });
+            }
+
+            return response;
         }
 
         public UserDTO GetUserById(int id)
         {
-            throw new NotImplementedException();
+            var users = _context.User.ToList().Where(x => x.Id == id).First();
+            var response = new UserDTO()
+            {
+                Id = users.Id,
+                Name = users.Name,
+                IdRole = users.IdRole
+            };
+
+            return response;
+        }
+        //Rompe aca
+        public UserDTO CreateUser(UserDTO user)
+        {
+            _context.User.Add(new User()
+            {
+                //Id = user.Id,
+                Name = user.Name,
+                IdRole = user.IdRole
+            });
+            _context.SaveChanges();
+            return user;
         }
 
-        public List<UserDTO> GetUserList()
+        public List<User> ModifyUser(int id, UserDTO user)
         {
-            throw new NotImplementedException();
+            _context.User.ToList().Where(x => x.Id == id).First().Id = user.Id;
+            _context.User.ToList().Where(x => x.Id == id).First().Name = user.Name;
+            _context.User.ToList().Where(x => x.Id == id).First().IdRole = user.IdRole;
+
+            _context.SaveChanges();
+            return _context.User.ToList();
         }
 
-        public List<UserDTO> ModifyUser(int id, UserDTO user)
+        public User RemoveUser(int id)
         {
-            throw new NotImplementedException();
-        }
+            var userToDelete = _context.User.ToList().Where(x => x.Id == id).First();
+            _context.User.Remove(userToDelete);
 
-        public List<UserDTO> RemoveUser(int id)
-        {
-            throw new NotImplementedException();
+            _context.SaveChanges();
+
+            return userToDelete;
         }
     }
 }

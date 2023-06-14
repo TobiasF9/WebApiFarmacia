@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model.DTO;
+using Model.Models;
 using Models.DTO;
 using Services.Implementations;
 using Services.Interfaces;
@@ -29,7 +30,7 @@ namespace WebApiMedicines.Controllers
             var response = _userService.GetUserById(id);
             return Ok(response);
         }
-        [HttpPost("PostMedicine")]
+        [HttpPost("PostUser")]
         public ActionResult<UserDTO> CreateUser([FromBody] UserDTO user)
         {
             var response = _userService.CreateUser(user);
@@ -37,15 +38,15 @@ namespace WebApiMedicines.Controllers
             return Ok(response);
         }
 
-        [HttpPut("PutMedicine/{id}")]
-        public ActionResult<UserDTO> ModifyUser(int id, [FromBody] UserDTO user)
+        [HttpPut("PutUser/{id}")]
+        public ActionResult <List<User>> ModifyUser(int id, [FromBody] UserDTO user)
         {
             var response = _userService.ModifyUser(id, user);
 
             return Ok(response);
         }
-        [HttpDelete("DeleteMedicine/{id}")]
-        public ActionResult<UserDTO> RemoveUser(int id)
+        [HttpDelete("DeleteUser/{id}")]
+        public ActionResult<User> RemoveUser(int id)
         {
             var response = _userService.RemoveUser(id);
 

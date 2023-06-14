@@ -11,7 +11,7 @@ using System.Xml.Linq;
 
 namespace Services.Implementations
 {
-    public class SellsService //ISellsService
+    public class SellsService : ISellsService
     {
         private readonly MedicinesAPIContext _context;
 
@@ -20,37 +20,36 @@ namespace Services.Implementations
             _context = context;
         }
 
-        //public SellsDTO CreateSell(SellsDTO sell)
-        //{
-        //    var medicine = _context.Sells.ToList();
-        //    var response = new List<SellsDTO>();
+        public List<SellsDTO> GetSellsList()
+        {
+            var sells = _context.Sells.ToList();
+            var response = new List<SellsDTO>();
 
-        //    foreach (var x in medicine)
-        //    {
-        //        response.Add(new SellsDTO()
-        //        {
-        //            IdMedicine = x.IdMedicine,
-        //            IdUser = x.IdUser,
-        //            Amount = x.Amount
-        //        });
-        //    }
+            foreach (var x in sells)
+            {
+                response.Add(new SellsDTO()
+                {
+                    IdMedicine = x.IdMedicine,
+                    IdUser = x.IdUser,
+                    Amount = x.Amount
+                });
+            }
+            return response;
+        }
 
-        //    return response;
-        //}
-
-        //public SellsDTO GetMedicineById(int id)
-        //{
-        //    var medicine = _context.Medicines.ToList().Where(x => x.IdMedicine == id).First();
-        //    //usamos un inicializador de objeto
-        //    var response = new MedicineDTO()
-        //    {
-        //        IdMedicine = medicine.IdMedicine,
-        //        Name = medicine.Name,
-        //        Price = medicine.Price,
-        //        Manufacturer = medicine.Manufacturer
-        //    };
-        //    return response;
-        //}
+        public SellsDTO GetSellById(int id)
+        {
+            //a que id llamas aca?
+            //var user = _context.User.ToList().Where(x => x.IdMedicine == id).First();
+            //usamos un inicializador de objeto
+            var response = new SellsDTO()
+            {
+                IdMedicine = user.IdMedicine,
+                IdUser = user.IdUser,
+                Amount = user.Amount
+            };
+            return response;
+        }
 
         public SellsDTO CreateSell(SellsDTO sell)
         {

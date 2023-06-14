@@ -10,7 +10,9 @@ namespace Model.DTO
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
-        public int? DNI { get; set; }
-        public float Balance { get; set; }
+        public int IdRole { get; set; }
+
+        //public int? DNI { get; set; }
+        //public float Balance { get; set; }
     }
 }

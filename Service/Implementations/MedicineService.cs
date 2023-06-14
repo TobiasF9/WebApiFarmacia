@@ -62,6 +62,8 @@ namespace Services.Implementations
             _context.SaveChanges();
             return product;
         }
+        //no se si conviene devolver una lista de Medicines o una lista de MedicineDTO
+        //no se si conviene modificar directamente la tabla (con _context.Medicines) o si es mejor, crear una variable y asignarle _context.Medicines
         public List<Medicines> ModifyMedicine(int id, MedicineDTO product)
         {
             //var medicineToModify = _context.Medicines.ToList().Where(x => x.IdMedicine == id).First();

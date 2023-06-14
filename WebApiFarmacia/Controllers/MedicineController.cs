@@ -43,7 +43,7 @@ namespace WebApiMedicines.Controllers
         }
         
         [HttpPut("PutMedicine/{id}")]
-        public ActionResult<Medicines> ModifyMedicine(int id, [FromBody] MedicineDTO product)
+        public ActionResult <List<Medicines>> ModifyMedicine(int id, [FromBody] MedicineDTO product)
         {
             var response = _medicineService.ModifyMedicine(id, product);
 

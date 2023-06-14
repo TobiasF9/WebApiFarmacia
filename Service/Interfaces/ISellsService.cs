@@ -10,10 +10,10 @@ namespace Services.Interfaces
 {
     public interface ISellsService
     {
-        List<SellsDTO> GetMedicineList();
-        SellsDTO GetMedicineById(int id);
-        SellsDTO CreateMedicine(SellsDTO sell);
-        List<Sells> ModifyMedicine(int id, SellsDTO sell);
-        Sells RemoveMedicine(int id);
+        List<SellsDTO> GetSellsList();
+        SellsDTO GetSellsById(int id);
+        SellsDTO CreateSell(SellsDTO sell);
+        List<Sells> ModifySell(int id, SellsDTO sell);
+        Sells RemoveSell(int id);
     }
 }
