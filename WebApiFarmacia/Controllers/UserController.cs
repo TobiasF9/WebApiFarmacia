@@ -30,7 +30,7 @@ namespace WebApiMedicines.Controllers
             return Ok(response);
         }
         [HttpPost("PostMedicine")]
-        public ActionResult<UserDTO> CreateMedicine([FromBody] UserDTO user)
+        public ActionResult<UserDTO> CreateUser([FromBody] UserDTO user)
         {
             var response = _userService.CreateUser(user);
 
@@ -38,14 +38,14 @@ namespace WebApiMedicines.Controllers
         }
 
         [HttpPut("PutMedicine/{id}")]
-        public ActionResult<UserDTO> ModifyMedicine(int id, [FromBody] UserDTO user)
+        public ActionResult<UserDTO> ModifyUser(int id, [FromBody] UserDTO user)
         {
             var response = _userService.ModifyUser(id, user);
 
             return Ok(response);
         }
         [HttpDelete("DeleteMedicine/{id}")]
-        public ActionResult<UserDTO> RemoveMedicine(int id)
+        public ActionResult<UserDTO> RemoveUser(int id)
         {
             var response = _userService.RemoveUser(id);
 

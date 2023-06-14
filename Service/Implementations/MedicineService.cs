@@ -34,6 +34,8 @@ namespace Services.Implementations
             }
 
             return response;
+            //otra posibilidad, lo que no se es si hace falta el ToList();
+            //return _context.Medicines.ToList();
         }
         public MedicineDTO GetMedicineById(int id)
         {
@@ -50,67 +52,34 @@ namespace Services.Implementations
         }
         public MedicineDTO CreateMedicine(MedicineDTO product)
         {
-            var medicine = _context.Medicines.ToList();
-            var medicinesList = new List<MedicineDTO>();
-
-            foreach (var x in medicine)
+            _context.Medicines.Add(new Medicines() 
             {
-                medicinesList.Add(new MedicineDTO()
-                {
-                    IdMedicine = x.IdMedicine,
-                    Name = x.Name,
-                    Price = x.Price,
-                    Manufacturer = x.Manufacturer
-                });
-            }
-
-            medicinesList.Add(product);
+                //IdMedicine = product.IdMedicine,
+                Name = product.Name,
+                Price = product.Price,
+                Manufacturer = product.Manufacturer
+            });
+            _context.SaveChanges();
             return product;
         }
-        public List<MedicineDTO> ModifyMedicine(int id, MedicineDTO product)
+        public List<Medicines> ModifyMedicine(int id, MedicineDTO product)
         {
-            var medicine = _context.Medicines.ToList();
-            var medicinesList = new List<MedicineDTO>();
+            //var medicineToModify = _context.Medicines.ToList().Where(x => x.IdMedicine == id).First();
+            _context.Medicines.ToList().Where(x => x.IdMedicine == id).First().IdMedicine = product.IdMedicine;
+            _context.Medicines.ToList().Where(x => x.IdMedicine == id).First().Name = product.Name;
+            _context.Medicines.ToList().Where(x => x.IdMedicine == id).First().Price = product.Price;
+            _context.Medicines.ToList().Where(x => x.IdMedicine == id).First().Manufacturer = product.Manufacturer;
 
-            foreach (var x in medicine)
-            {
-                medicinesList.Add(new MedicineDTO()
-                {
-                    IdMedicine = x.IdMedicine,
-                    Name = x.Name,
-                    Price = x.Price,
-                    Manufacturer = x.Manufacturer
-                });
-            }
-
-            var medicineToModify = medicinesList.Where(x => x.IdMedicine == id).First();
-            medicineToModify.IdMedicine = product.IdMedicine;
-            medicineToModify.Name = product.Name;
-            medicineToModify.Price = product.Price;
-            medicineToModify.Manufacturer = product.Manufacturer;
-
-            return medicinesList;
+            _context.SaveChanges();
+            return _context.Medicines.ToList();
         }
-        public List<MedicineDTO> RemoveMedicine(int id)
+        public Medicines RemoveMedicine(int id)
         {
-            var medicine = _context.Medicines.ToList();
-            var medicinesList = new List<MedicineDTO>();
+            var medicineToDelete = _context.Medicines.ToList().Where(x => x.IdMedicine == id).First();
+            _context.Medicines.Remove(medicineToDelete); //no entiendo esto. no entiendo xq aca no hay que hacer el .ToList()
 
-            foreach (var x in medicine)
-            {
-                medicinesList.Add(new MedicineDTO()
-                {
-                    IdMedicine = x.IdMedicine,
-                    Name = x.Name,
-                    Price = x.Price,
-                    Manufacturer = x.Manufacturer
-                });
-            }
-
-            var medicineToDelete = medicinesList.Where(x => x.IdMedicine == id).First();
-            medicinesList.Remove(medicineToDelete);
-
-            return medicinesList;
+            _context.SaveChanges();
+            return medicineToDelete;
         }
     }
 }

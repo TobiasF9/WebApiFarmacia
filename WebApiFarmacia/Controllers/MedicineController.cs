@@ -4,6 +4,7 @@ using Models.DTO;
 using System.Collections.Generic;
 using Services.Implementations;
 using Services.Interfaces;
+using Model.Models;
 
 namespace WebApiMedicines.Controllers
 {
@@ -42,14 +43,14 @@ namespace WebApiMedicines.Controllers
         }
         
         [HttpPut("PutMedicine/{id}")]
-        public ActionResult<MedicineDTO> ModifyMedicine(int id, [FromBody] MedicineDTO product)
+        public ActionResult<Medicines> ModifyMedicine(int id, [FromBody] MedicineDTO product)
         {
             var response = _medicineService.ModifyMedicine(id, product);
 
             return Ok(response);
         }
         [HttpDelete("DeleteMedicine/{id}")]
-        public ActionResult<MedicineDTO> RemoveMedicine(int id)
+        public ActionResult<Medicines> RemoveMedicine(int id)
         {
             var response = _medicineService.RemoveMedicine(id);
 

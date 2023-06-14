@@ -8,6 +8,8 @@ namespace Models.DTO
 {
     public class SellsDTO
     {
-
+        public int IdMedicine { get; set; }
+        public int IdUser { get; set; }
+        public decimal? Amount { get; set; }
     }
 }
