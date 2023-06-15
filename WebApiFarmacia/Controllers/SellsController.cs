@@ -12,45 +12,45 @@ namespace WebApiMedicines.Controllers
     {
         private readonly ISellsService _sellsService;
 
-        public SellsController(ISellsService medicineService)
+        public SellsController(ISellsService sellsService)
         {
-            _sellsService = medicineService;
+            _sellsService = sellsService;
         }
 
         [HttpGet("GetSellsList")]
-        public ActionResult<List<SellsDTO>> GetMedicineList()
+        public ActionResult<List<SellsDTO>> GetSellsList()
         {
-            var response = _sellsService.GetMedicineList();
+            var response = _sellsService.GetSellsList();
             return Ok(response);
         }
 
         [HttpGet("GetSellsById/{id}")]
-        public ActionResult<SellsDTO> GetMedicineById(int id)
+        public ActionResult<SellsDTO> GetsSellId(int idOfMedicine, int idOfUser)
         {
-            var response = _sellsService.GetMedicineById(id);
+            var response = _sellsService.GetSellById(idOfMedicine, idOfUser);
 
             return Ok(response);
         }
 
         [HttpPost("PostSells")]
-        //public ActionResult<SellsDTO> CreateSell([FromBody] SellsDTO sell)
-        //{
-        //    var response = _sellsService.CreateSell(sell);
+        public ActionResult<SellsDTO> CreateSell([FromBody] SellsDTO sell)
+        {
+            var response = _sellsService.CreateSell(sell);
 
-        //    return Ok(response);
-        //}
+            return Ok(response);
+        }
 
         [HttpPut("PutSells/{id}")]
-        public ActionResult<Sells> ModifyMedicine(int id, [FromBody] SellsDTO sell)
+        public ActionResult<Sells> ModifySell(int id, [FromBody] SellsDTO sell)
         {
-            var response = _sellsService.ModifyMedicine(id, sell);
+            var response = _sellsService.ModifySell(id, sell);
 
             return Ok(response);
         }
         [HttpDelete("DeleteSells/{id}")]
         public ActionResult<Sells> RemoveMedicine(int id)
         {
-            var response = _sellsService.RemoveMedicine(id);
+            var response = _sellsService.RemoveSell(id);
 
             return Ok(response);
         }

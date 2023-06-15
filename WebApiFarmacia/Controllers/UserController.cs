@@ -30,7 +30,7 @@ namespace WebApiMedicines.Controllers
             var response = _userService.GetUserById(id);
             return Ok(response);
         }
-        [HttpPost("PostUser")]
+        [HttpPost("CreateUser")]
         public ActionResult<UserDTO> CreateUser([FromBody] UserDTO user)
         {
             var response = _userService.CreateUser(user);

@@ -37,24 +37,42 @@ namespace Services.Implementations
             return response;
         }
 
-        public SellsDTO GetSellById(int id)
+        public SellsDTO GetSellById(int idOfMedicine, int idOfUser)
         {
-            //a que id llamas aca?
+            //a que id llamas aca? tenemos que hacer todo el quilombo de consultas y manejes de de sql q hace el profe en getlistado organizacion service
             //var user = _context.User.ToList().Where(x => x.IdMedicine == id).First();
-            //usamos un inicializador de objeto
-            var response = new SellsDTO()
-            {
-                IdMedicine = user.IdMedicine,
-                IdUser = user.IdUser,
-                Amount = user.Amount
-            };
+
+                                        //cuando se usa toda esta funcion y cuando no?
+            List<SellsDTO> responseList = (from sell in _context.Sells
+                                       join medicine in _context.Medicines
+                                       on sell.IdMedicine equals medicine.IdMedicine
+                                       join user in _context.User
+                                       on sell.IdUser equals user.Id
+                                       select new SellsDTO()
+                                       {
+                                           IdMedicine = medicine.IdMedicine,
+                                           IdUser = user.Id,
+                                           Amount = sell.Amount
+                                       }
+                                       ).ToList();
+
+            SellsDTO response = responseList.First(s => s.IdMedicine == idOfMedicine && s.IdUser == idOfUser);
+            //.Where(x => x.IdMedicine == id)
+            //.First();
+            //var response = new SellsDTO()
+            //{
+            //    IdMedicine = user.IdMedicine,
+            //    IdUser = user.IdUser,
+            //    Amount = user.Amount
+            //};
+
             return response;
         }
 
         public SellsDTO CreateSell(SellsDTO sell)
         {
             _context.Sells.Add(new Sells()
-        {
+            {
                 IdMedicine = sell.IdMedicine,
                 IdUser = sell.IdUser,
                 Amount = sell.Amount
@@ -62,17 +80,13 @@ namespace Services.Implementations
             _context.SaveChanges();
             return sell;
         }
-        public List<SellsDTO> GetMedicineList()
+
+        public List<Sells> ModifySell(int id, SellsDTO sell)
         {
             throw new NotImplementedException();
         }
 
-        public List<Sells> ModifyMedicine(int id, SellsDTO sell)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Sells RemoveMedicine(int id)
+        public Sells RemoveSell(int id)
         {
             throw new NotImplementedException();
         }

@@ -11,7 +11,7 @@ namespace Services.Interfaces
     public interface ISellsService
     {
         List<SellsDTO> GetSellsList();
-        SellsDTO GetSellsById(int id);
+        SellsDTO GetSellById(int idOfMedicine, int idOfUser);
         SellsDTO CreateSell(SellsDTO sell);
         List<Sells> ModifySell(int id, SellsDTO sell);
         Sells RemoveSell(int id);
