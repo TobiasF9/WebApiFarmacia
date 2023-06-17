@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Model.Models;
 using Models.DTO;
+using Model.ViewModel;
 
 namespace Services.Implementations
 {
@@ -21,7 +22,7 @@ namespace Services.Implementations
 
         public List<UserDTO> GetUserList()
         {
-            var users = _context.User.ToList();
+            var users = _context.Users.ToList();
             var response = new List<UserDTO>();
 
             foreach (var x in users)
@@ -39,7 +40,7 @@ namespace Services.Implementations
 
         public UserDTO GetUserById(int id)
         {
-            var users = _context.User.ToList().Where(x => x.Id == id).First();
+            var users = _context.Users.ToList().Where(x => x.Id == id).First();
             var response = new UserDTO()
             {
                 Id = users.Id,
@@ -49,36 +50,59 @@ namespace Services.Implementations
 
             return response;
         }
-        public UserDTO CreateUser(UserDTO user)
+        public UserDTO CreateUser(UserViewModel user)
         {
-            _context.User.Add(new User()
+            _context.Users.Add(new Users()
             {
                 //Id = user.Id,
                 Name = user.Name,
                 IdRole = user.IdRole
             });
             _context.SaveChanges();
-            return user;
+            var response = new UserDTO
+            {
+                    Id = user.Id,
+                    Name = user.Name,
+                    IdRole = user.IdRole
+            };
+            
+            return response;
         }
 
-        public List<User> ModifyUser(int id, UserDTO user)
+        public List<UserDTO> ModifyUser(int id, UserViewModel user)
         {
-            _context.User.ToList().Where(x => x.Id == id).First().Id = user.Id;
-            _context.User.ToList().Where(x => x.Id == id).First().Name = user.Name;
-            _context.User.ToList().Where(x => x.Id == id).First().IdRole = user.IdRole;
+            _context.Users.ToList().Where(x => x.Id == id).First().Id = user.Id;
+            _context.Users.ToList().Where(x => x.Id == id).First().Name = user.Name;
+            _context.Users.ToList().Where(x => x.Id == id).First().IdRole = user.IdRole;
 
             _context.SaveChanges();
-            return _context.User.ToList();
+            var response = new List<UserDTO>();
+
+            foreach (var x in _context.Users)
+            {
+                response.Add(new UserDTO()
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    IdRole = x.IdRole
+                });
+            }
+            return response;
         }
 
-        public User RemoveUser(int id)
+        public UserDTO RemoveUser(int id)
         {
-            var userToDelete = _context.User.ToList().Where(x => x.Id == id).First();
-            _context.User.Remove(userToDelete);
+            var userToDelete = _context.Users.ToList().Where(x => x.Id == id).First();
+            _context.Users.Remove(userToDelete);
 
             _context.SaveChanges();
-
-            return userToDelete;
+            var response = new UserDTO
+            {
+                Id = userToDelete.Id,
+                Name = userToDelete.Name,
+                IdRole = userToDelete.IdRole
+            };
+            return response;
         }
     }
 }

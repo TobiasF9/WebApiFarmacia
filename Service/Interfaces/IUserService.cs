@@ -1,5 +1,6 @@
 ﻿using Model.DTO;
 using Model.Models;
+using Model.ViewModel;
 using Models.DTO;
 using System;
 using System.Collections.Generic;
@@ -13,8 +14,8 @@ namespace Services.Interfaces
     {
         List<UserDTO> GetUserList();
         UserDTO GetUserById(int id);
-        UserDTO CreateUser(UserDTO user);
-        List<User> ModifyUser(int id, UserDTO user);
-        User RemoveUser(int id);
+        UserDTO CreateUser(UserViewModel user);
+        List<UserDTO> ModifyUser(int id, UserViewModel user);
+        UserDTO RemoveUser(int id);
     }
 }

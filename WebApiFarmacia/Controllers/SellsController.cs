@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Model.Models;
 using Models.DTO;
+using Models.ViewModel;
 using Services.Interfaces;
 
 namespace WebApiMedicines.Controllers
@@ -33,7 +34,7 @@ namespace WebApiMedicines.Controllers
         }
 
         [HttpPost("PostSells")]
-        public ActionResult<SellsDTO> CreateSell([FromBody] SellsDTO sell)
+        public ActionResult<SellsDTO> CreateSell([FromBody] SellsViewModel sell)
         {
             var response = _sellsService.CreateSell(sell);
 
@@ -41,7 +42,7 @@ namespace WebApiMedicines.Controllers
         }
 
         [HttpPut("PutSells/{id}")]
-        public ActionResult<Sells> ModifySell(int id, [FromBody] SellsDTO sell)
+        public ActionResult<Sells> ModifySell(int id, [FromBody] SellsViewModel sell)
         {
             var response = _sellsService.ModifySell(id, sell);
 

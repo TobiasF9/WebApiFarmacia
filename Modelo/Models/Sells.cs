@@ -7,8 +7,13 @@ namespace Model.Models
 {
     public partial class Sells
     {
+        public int Id { get; set; }
         public int IdMedicine { get; set; }
         public int IdUser { get; set; }
-        public decimal? Amount { get; set; }
+        public DateTime SellDate { get; set; }
+        public decimal Amount { get; set; }
+
+        public virtual Medicines IdMedicineNavigation { get; set; }
+        public virtual Users IdUserNavigation { get; set; }
     }
 }

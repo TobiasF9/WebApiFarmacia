@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Services.Implementations;
 using Services.Interfaces;
 using Model.Models;
+using Models.ViewModel;
 
 namespace WebApiMedicines.Controllers
 {
@@ -35,7 +36,7 @@ namespace WebApiMedicines.Controllers
         }
 
         [HttpPost("PostMedicine")]
-        public ActionResult<MedicineDTO> CreateMedicine([FromBody] MedicineDTO product)
+        public ActionResult<MedicineDTO> CreateMedicine([FromBody] MedicineViewModel product)
         {
             var response = _medicineService.CreateMedicine(product);
 
@@ -43,14 +44,14 @@ namespace WebApiMedicines.Controllers
         }
         
         [HttpPut("PutMedicine/{id}")]
-        public ActionResult <List<Medicines>> ModifyMedicine(int id, [FromBody] MedicineDTO product)
+        public ActionResult <List<MedicineDTO>> ModifyMedicine(int id, [FromBody] MedicineViewModel product)
         {
             var response = _medicineService.ModifyMedicine(id, product);
 
             return Ok(response);
         }
         [HttpDelete("DeleteMedicine/{id}")]
-        public ActionResult<Medicines> RemoveMedicine(int id)
+        public ActionResult<MedicineDTO> RemoveMedicine(int id)
         {
             var response = _medicineService.RemoveMedicine(id);
 

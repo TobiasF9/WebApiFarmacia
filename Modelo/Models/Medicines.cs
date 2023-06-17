@@ -7,9 +7,16 @@ namespace Model.Models
 {
     public partial class Medicines
     {
-        public int IdMedicine { get; set; }
+        public Medicines()
+        {
+            Sells = new HashSet<Sells>();
+        }
+
+        public int Id { get; set; }
         public string Name { get; set; }
-        public decimal? Price { get; set; }
+        public decimal Price { get; set; }
         public string Manufacturer { get; set; }
+
+        public virtual ICollection<Sells> Sells { get; set; }
     }
 }

@@ -8,6 +8,8 @@ namespace Models.ViewModel
 {
     public class SellsViewModel
     {
-
+        public int IdMedicine { get; set; }
+        public int IdUser { get; set; }
+        public decimal Amount { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Model.Models;
 using Models.DTO;
+using Models.ViewModel;
 using Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -45,12 +46,12 @@ namespace Services.Implementations
                                         //cuando se usa toda esta funcion y cuando no?
             List<SellsDTO> responseList = (from sell in _context.Sells
                                        join medicine in _context.Medicines
-                                       on sell.IdMedicine equals medicine.IdMedicine
-                                       join user in _context.User
+                                       on sell.IdMedicine equals medicine.Id
+                                       join user in _context.Users
                                        on sell.IdUser equals user.Id
                                        select new SellsDTO()
                                        {
-                                           IdMedicine = medicine.IdMedicine,
+                                           IdMedicine = medicine.Id,
                                            IdUser = user.Id,
                                            Amount = sell.Amount
                                        }
@@ -69,7 +70,7 @@ namespace Services.Implementations
             return response;
         }
 
-        public SellsDTO CreateSell(SellsDTO sell)
+        public SellsDTO CreateSell(SellsViewModel sell)
         {
             _context.Sells.Add(new Sells()
             {
@@ -78,15 +79,21 @@ namespace Services.Implementations
                 Amount = sell.Amount
             });
             _context.SaveChanges();
-            return sell;
+            var response = new SellsDTO()
+            {
+                IdMedicine = sell.IdMedicine,
+                IdUser = sell.IdUser,
+                Amount = sell.Amount
+            };
+            return response;
         }
 
-        public List<Sells> ModifySell(int id, SellsDTO sell)
+        public List<SellsDTO> ModifySell(int id, SellsViewModel sell)
         {
             throw new NotImplementedException();
         }
 
-        public Sells RemoveSell(int id)
+        public SellsDTO RemoveSell(int id)
         {
             throw new NotImplementedException();
         }

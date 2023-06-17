@@ -1,5 +1,6 @@
 ﻿using Model.Models;
 using Models.DTO;
+using Models.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +13,8 @@ namespace Services.Interfaces
     {
         List<SellsDTO> GetSellsList();
         SellsDTO GetSellById(int idOfMedicine, int idOfUser);
-        SellsDTO CreateSell(SellsDTO sell);
-        List<Sells> ModifySell(int id, SellsDTO sell);
-        Sells RemoveSell(int id);
+        SellsDTO CreateSell(SellsViewModel sell);
+        List<SellsDTO> ModifySell(int id, SellsViewModel sell);
+        SellsDTO RemoveSell(int id);
     }
 }

@@ -5,12 +5,18 @@ using System.Collections.Generic;
 
 namespace Model.Models
 {
-    public partial class User
+    public partial class Users
     {
+        public Users()
+        {
+            Sells = new HashSet<Sells>();
+        }
+
         public int Id { get; set; }
         public string Name { get; set; }
         public int IdRole { get; set; }
 
         public virtual Role IdRoleNavigation { get; set; }
+        public virtual ICollection<Sells> Sells { get; set; }
     }
 }

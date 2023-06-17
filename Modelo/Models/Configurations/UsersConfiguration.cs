@@ -8,9 +8,9 @@ using System.Collections.Generic;
 
 namespace Model.Models.Configurations
 {
-    public partial class UserConfiguration : IEntityTypeConfiguration<User>
+    public partial class UsersConfiguration : IEntityTypeConfiguration<Users>
     {
-        public void Configure(EntityTypeBuilder<User> entity)
+        public void Configure(EntityTypeBuilder<Users> entity)
         {
             entity.Property(e => e.Id).HasColumnName("id");
 
@@ -21,7 +21,7 @@ namespace Model.Models.Configurations
                 .HasColumnName("name");
 
             entity.HasOne(d => d.IdRoleNavigation)
-                .WithMany(p => p.User)
+                .WithMany(p => p.Users)
                 .HasForeignKey(d => d.IdRole)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__User__id_role__5EBF139D");
@@ -29,6 +29,6 @@ namespace Model.Models.Configurations
             OnConfigurePartial(entity);
         }
 
-        partial void OnConfigurePartial(EntityTypeBuilder<User> entity);
+        partial void OnConfigurePartial(EntityTypeBuilder<Users> entity);
     }
 }

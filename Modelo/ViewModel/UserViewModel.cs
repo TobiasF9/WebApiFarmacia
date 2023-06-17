@@ -12,5 +12,6 @@ namespace Model.ViewModel
         public string Name { get; set; } = string.Empty;
         public int? DNI { get; set; }
         public float Balance { get; set; }
+        public int IdRole { get; set; }
     }
 }

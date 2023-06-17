@@ -12,17 +12,25 @@ namespace Model.Models.Configurations
     {
         public void Configure(EntityTypeBuilder<Medicines> entity)
         {
-            entity.HasKey(e => e.IdMedicine);
+            entity.Property(e => e.Id)
+                .ValueGeneratedNever()
+                .HasColumnName("id");
 
             entity.Property(e => e.Manufacturer)
+                .IsRequired()
                 .HasMaxLength(50)
-                .IsUnicode(false);
+                .IsUnicode(false)
+                .HasColumnName("manufacturer");
 
             entity.Property(e => e.Name)
+                .IsRequired()
                 .HasMaxLength(50)
-                .IsUnicode(false);
+                .IsUnicode(false)
+                .HasColumnName("name");
 
-            entity.Property(e => e.Price).HasColumnType("decimal(18, 0)");
+            entity.Property(e => e.Price)
+                .HasColumnType("decimal(18, 0)")
+                .HasColumnName("price");
 
             OnConfigurePartial(entity);
         }

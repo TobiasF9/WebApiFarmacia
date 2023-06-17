@@ -22,14 +22,14 @@ namespace Model.Models
         public virtual DbSet<Medicines> Medicines { get; set; }
         public virtual DbSet<Role> Role { get; set; }
         public virtual DbSet<Sells> Sells { get; set; }
-        public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<Users> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new Configurations.MedicinesConfiguration());
             modelBuilder.ApplyConfiguration(new Configurations.RoleConfiguration());
             modelBuilder.ApplyConfiguration(new Configurations.SellsConfiguration());
-            modelBuilder.ApplyConfiguration(new Configurations.UserConfiguration());
+            modelBuilder.ApplyConfiguration(new Configurations.UsersConfiguration());
 
             OnModelCreatingPartial(modelBuilder);
         }
