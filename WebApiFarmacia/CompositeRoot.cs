@@ -9,7 +9,7 @@ namespace WebApiMedicines
         {
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IMedicineService, MedicineService>();
-            //builder.Services.AddScoped<ISellsService, SellsService>();
+            builder.Services.AddScoped<ISellsService, SellsService>();
         }
     }
 }

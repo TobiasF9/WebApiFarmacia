@@ -12,7 +12,7 @@ namespace Services.Interfaces
     public interface ISellsService
     {
         List<SellsDTO> GetSellsList();
-        SellsDTO GetSellById(int idOfMedicine, int idOfUser);
+        SellsDTO GetSellById(int id);
         SellsDTO CreateSell(SellsViewModel sell);
         List<SellsDTO> ModifySell(int id, SellsViewModel sell);
         SellsDTO RemoveSell(int id);

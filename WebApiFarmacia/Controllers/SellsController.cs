@@ -26,9 +26,9 @@ namespace WebApiMedicines.Controllers
         }
 
         [HttpGet("GetSellsById/{id}")]
-        public ActionResult<SellsDTO> GetsSellId(int idOfMedicine, int idOfUser)
+        public ActionResult<SellsDTO> GetsSellId(int id)
         {
-            var response = _sellsService.GetSellById(idOfMedicine, idOfUser);
+            var response = _sellsService.GetSellById(id);
 
             return Ok(response);
         }

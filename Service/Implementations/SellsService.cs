@@ -23,26 +23,44 @@ namespace Services.Implementations
 
         public List<SellsDTO> GetSellsList()
         {
-            var sells = _context.Sells.ToList();
-            var response = new List<SellsDTO>();
+            //var sells = _context.Sells.ToList();
+            //var response = new List<SellsDTO>();
 
-            foreach (var x in sells)
-            {
-                response.Add(new SellsDTO()
-                {
-                    IdMedicine = x.IdMedicine,
-                    IdUser = x.IdUser,
-                    Amount = x.Amount
-                });
-            }
-            return response;
+            //foreach (var x in sells)
+            //{
+            //    response.Add(new SellsDTO()
+            //    {
+            //        Id = x.Id,
+            //        IdMedicine = x.IdMedicine,
+            //        IdUser = x.IdUser,
+            //        SellDate = x.SellDate,
+            //        Amount = x.Amount
+            //    });
+            //}
+            //return response;
+
+            List<SellsDTO> responseList = (from sell in _context.Sells
+                                           join medicine in _context.Medicines
+                                           on sell.IdMedicine equals medicine.Id
+                                           join user in _context.Users
+                                           on sell.IdUser equals user.Id
+                                           select new SellsDTO()
+                                           {
+                                               Id = sell.Id,
+                                               IdMedicine = medicine.Id,
+                                               MedicineName = medicine.Name,
+                                               IdUser = user.Id,
+                                               UserName = user.Name,
+                                               SellDate = sell.SellDate,
+                                               Amount = sell.Amount
+                                           }
+                                           ).ToList();
+
+            return responseList;
         }
 
-        public SellsDTO GetSellById(int idOfMedicine, int idOfUser)
+        public SellsDTO GetSellById(int id)
         {
-            //a que id llamas aca? tenemos que hacer todo el quilombo de consultas y manejes de de sql q hace el profe en getlistado organizacion service
-            //var user = _context.User.ToList().Where(x => x.IdMedicine == id).First();
-
                                         //cuando se usa toda esta funcion y cuando no?
             List<SellsDTO> responseList = (from sell in _context.Sells
                                        join medicine in _context.Medicines
@@ -51,22 +69,15 @@ namespace Services.Implementations
                                        on sell.IdUser equals user.Id
                                        select new SellsDTO()
                                        {
+                                           Id = sell.Id,
                                            IdMedicine = medicine.Id,
                                            IdUser = user.Id,
+                                           SellDate = sell.SellDate,
                                            Amount = sell.Amount
                                        }
                                        ).ToList();
 
-            SellsDTO response = responseList.First(s => s.IdMedicine == idOfMedicine && s.IdUser == idOfUser);
-            //.Where(x => x.IdMedicine == id)
-            //.First();
-            //var response = new SellsDTO()
-            //{
-            //    IdMedicine = user.IdMedicine,
-            //    IdUser = user.IdUser,
-            //    Amount = user.Amount
-            //};
-
+            SellsDTO response = responseList.First(s => s.Id == id);
             return response;
         }
 
@@ -76,6 +87,7 @@ namespace Services.Implementations
             {
                 IdMedicine = sell.IdMedicine,
                 IdUser = sell.IdUser,
+                SellDate = sell.SellDate,
                 Amount = sell.Amount
             });
             _context.SaveChanges();
@@ -83,6 +95,7 @@ namespace Services.Implementations
             {
                 IdMedicine = sell.IdMedicine,
                 IdUser = sell.IdUser,
+                SellDate = sell.SellDate,
                 Amount = sell.Amount
             };
             return response;
@@ -90,12 +103,44 @@ namespace Services.Implementations
 
         public List<SellsDTO> ModifySell(int id, SellsViewModel sell)
         {
-            throw new NotImplementedException();
+            _context.Sells.ToList().Where(x => x.Id == id).First().Id = sell.Id;
+            _context.Sells.ToList().Where(x => x.Id == id).First().IdMedicine = sell.IdMedicine;
+            _context.Sells.ToList().Where(x => x.Id == id).First().IdUser = sell.IdUser;
+            _context.Sells.ToList().Where(x => x.Id == id).First().SellDate = sell.SellDate;
+            _context.Sells.ToList().Where(x => x.Id == id).First().Amount = sell.Amount;
+
+            _context.SaveChanges();
+            var response = new List<SellsDTO>();
+
+            foreach (var x in _context.Sells)
+            {
+                response.Add(new SellsDTO()
+                {
+                    Id = x.Id,
+                    IdMedicine = x.IdMedicine,
+                    IdUser = x.IdUser,
+                    SellDate = x.SellDate,
+                    Amount = x.Amount
+                });
+            }
+            return response;
         }
 
         public SellsDTO RemoveSell(int id)
         {
-            throw new NotImplementedException();
+            var sellToDelete = _context.Sells.ToList().Where(x => x.Id == id).First();
+            _context.Sells.Remove(sellToDelete);
+
+            _context.SaveChanges();
+            var response = new SellsDTO
+            {
+                Id = sellToDelete.Id,
+                IdMedicine = sellToDelete.IdMedicine,
+                IdUser = sellToDelete.IdUser,
+                SellDate = sellToDelete.SellDate,
+                Amount = sellToDelete.Amount
+            };
+            return response;
         }
     }
 }
