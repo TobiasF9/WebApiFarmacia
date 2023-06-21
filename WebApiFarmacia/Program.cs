@@ -3,8 +3,16 @@ using Microsoft.EntityFrameworkCore;
 using Services.Interfaces;
 using Services.Implementations;
 using Model.Models;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+//configuracion Serilog
+////string logsFolders = Path.Combine(Directory.GetCurrentDirectory(), "Logs");
+////Directory.CreateDirectory(logsFolders);
+////Log.Logger = LoggerConfiguration()
+////    .MinimumLevel.Information()
+////    .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
 
 // Inyectamos el contexto nuestro (clase que hereda de DbContext) con el metodo AddDbContext() y le pasamos por parametro la ConnectionString definida en el archivo appsettings.json
 builder.Services.AddDbContext<MedicinesAPIContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -13,6 +21,11 @@ builder.Services.AddDbContext<MedicinesAPIContext>(options => options.UseSqlServ
 CompositeRoot.DependencyInjection(builder);
 
 // Add services to the container.
+////builder.Services.AddLogging(loggingBuilder =>
+////{
+
+////}
+////);
 //builder.Services.UseSqlServer(builder.Configuration.GetConnectionString("");
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

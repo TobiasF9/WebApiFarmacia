@@ -10,7 +10,6 @@ namespace Model.Models
         public int Id { get; set; }
         public int IdMedicine { get; set; }
         public int IdUser { get; set; }
-        //agregar SellDate a lo largo del programa
         public DateTime SellDate { get; set; }
         public decimal Amount { get; set; }
 

@@ -12,9 +12,7 @@ namespace Model.Models.Configurations
     {
         public void Configure(EntityTypeBuilder<Medicines> entity)
         {
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
 
             entity.Property(e => e.Manufacturer)
                 .IsRequired()

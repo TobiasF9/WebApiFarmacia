@@ -20,14 +20,14 @@ namespace WebApiMedicines.Controllers
             _medicineService = medicineService;
         }
 
-        [HttpGet("GetMedicineList")]
+        [HttpGet("GetAll")]
         public ActionResult<List<MedicineDTO>> GetMedicineList()
         {
             var response = _medicineService.GetMedicineList();
             return Ok(response);
         }
 
-        [HttpGet("GetMedicineById/{id}")]
+        [HttpGet("GetById/{id}")]
         public ActionResult<MedicineDTO> GetMedicineById(int id)
         {
             var response = _medicineService.GetMedicineById(id);
@@ -35,7 +35,7 @@ namespace WebApiMedicines.Controllers
             return Ok(response);
         }
 
-        [HttpPost("PostMedicine")]
+        [HttpPost("Create")]
         public ActionResult<MedicineDTO> CreateMedicine([FromBody] MedicineViewModel product)
         {
             var response = _medicineService.CreateMedicine(product);
@@ -43,14 +43,14 @@ namespace WebApiMedicines.Controllers
             return Ok(response);
         }
         
-        [HttpPut("PutMedicine/{id}")]
+        [HttpPut("Modify/{id}")]
         public ActionResult <List<MedicineDTO>> ModifyMedicine(int id, [FromBody] MedicineViewModel product)
         {
             var response = _medicineService.ModifyMedicine(id, product);
 
             return Ok(response);
         }
-        [HttpDelete("DeleteMedicine/{id}")]
+        [HttpDelete("Delete/{id}")]
         public ActionResult<MedicineDTO> RemoveMedicine(int id)
         {
             var response = _medicineService.RemoveMedicine(id);

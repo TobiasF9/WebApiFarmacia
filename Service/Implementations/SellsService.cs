@@ -47,9 +47,9 @@ namespace Services.Implementations
                                            select new SellsDTO()
                                            {
                                                Id = sell.Id,
-                                               IdMedicine = medicine.Id,
+                                               //IdMedicine = medicine.Id,
                                                MedicineName = medicine.Name,
-                                               IdUser = user.Id,
+                                               //IdUser = user.Id,
                                                UserName = user.Name,
                                                SellDate = sell.SellDate,
                                                Amount = sell.Amount
@@ -70,8 +70,10 @@ namespace Services.Implementations
                                        select new SellsDTO()
                                        {
                                            Id = sell.Id,
-                                           IdMedicine = medicine.Id,
-                                           IdUser = user.Id,
+                                           //IdMedicine = medicine.Id,
+                                           MedicineName = medicine.Name,
+                                           //IdUser = user.Id,
+                                           UserName = user.Name,
                                            SellDate = sell.SellDate,
                                            Amount = sell.Amount
                                        }
