@@ -7,11 +7,13 @@ using Services.Interfaces;
 using Model.Models;
 using Models.ViewModel;
 using WebApiMedicines.Common;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApiMedicines.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class MedicineController : ControllerBase
     {
         private readonly IMedicineService _medicineService;
@@ -47,7 +49,12 @@ namespace WebApiMedicines.Controllers
         [HttpGet("GetById/{id}")]
         public ActionResult<MedicineDTO> GetMedicineById(int id)
         {
-
+            string? rol = User.Claims.FirstOrDefault(c => c.Properties.ContainsKey("role"))?.Value;
+            if(rol == "admin")
+            {
+                return Ok(_medicineService.GetMedicineById(id)); //corregir
+            }
+            return Unauthorized();
             try
             {
                 var response = _medicineService.GetMedicineById(id);
