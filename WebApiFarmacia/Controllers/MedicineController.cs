@@ -6,6 +6,7 @@ using Services.Implementations;
 using Services.Interfaces;
 using Model.Models;
 using Models.ViewModel;
+using WebApiMedicines.Common;
 
 namespace WebApiMedicines.Controllers
 {
@@ -14,48 +15,114 @@ namespace WebApiMedicines.Controllers
     public class MedicineController : ControllerBase
     {
         private readonly IMedicineService _medicineService;
+        private readonly ILogger<MedicineController> _logger;
 
-        public MedicineController(IMedicineService medicineService)
+        public MedicineController(IMedicineService medicineService, ILogger<MedicineController> logger)
         {
             _medicineService = medicineService;
+            _logger = logger;
         }
 
         [HttpGet("GetAll")]
         public ActionResult<List<MedicineDTO>> GetMedicineList()
         {
-            var response = _medicineService.GetMedicineList();
-            return Ok(response);
+            try
+            {
+                var response = _medicineService.GetMedicineList();
+                if (response.Count == 0)
+                {
+                    NotFound("There is no medicine");
+                }
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                //el "getAll" de este log no está un poco generico?
+                _logger.LogCustomError("GetAll", ex);
+                return BadRequest($"{ex.Message}");
+            }
+            
         }
 
         [HttpGet("GetById/{id}")]
         public ActionResult<MedicineDTO> GetMedicineById(int id)
         {
-            var response = _medicineService.GetMedicineById(id);
 
-            return Ok(response);
+            try
+            {
+                var response = _medicineService.GetMedicineById(id);
+                if (response == null)
+                {
+                    return NotFound($"The medicine with id {id} was not found");
+                }
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCustomError("GetById", ex);
+                return BadRequest($"{ex.Message}");
+            }
+            
         }
 
         [HttpPost("Create")]
         public ActionResult<MedicineDTO> CreateMedicine([FromBody] MedicineViewModel product)
         {
-            var response = _medicineService.CreateMedicine(product);
-
-            return Ok(response);
+            try
+            {
+                var response = _medicineService.CreateMedicine(product);
+                
+                string baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}";
+                string apiAndEndpointUrl = $"api/Medicine/GetById";
+                string locationUrl = $"{baseUrl}/{apiAndEndpointUrl}/{response.Id}";
+                return Created(locationUrl, response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCustomError("Create", ex);
+                return BadRequest($"{ex.Message}");
+            }
+            
         }
         
         [HttpPut("Modify/{id}")]
-        public ActionResult <List<MedicineDTO>> ModifyMedicine(int id, [FromBody] MedicineViewModel product)
+        public ActionResult <MedicineDTO> ModifyMedicine([FromBody] MedicineViewModel product)
         {
-            var response = _medicineService.ModifyMedicine(id, product);
 
-            return Ok(response);
+            try
+            {
+                var response = _medicineService.ModifyMedicine(product);
+
+                string baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}";
+                string apiAndEndpointUrl = $"api/Medicine/GetById";
+                string locationUrl = $"{baseUrl}/{apiAndEndpointUrl}/{response.Id}";
+                return Created(locationUrl, response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCustomError("Modify", ex);
+                return BadRequest($"{ex.Message}");
+            }
+
         }
         [HttpDelete("Delete/{id}")]
         public ActionResult<MedicineDTO> RemoveMedicine(int id)
         {
-            var response = _medicineService.RemoveMedicine(id);
 
-            return Ok(response);
+            try
+            {
+                var response = _medicineService.RemoveMedicine(id);
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCustomError("Delete", ex);
+                return BadRequest($"{ex.Message}");
+            }
+
+            
         }
     }
 }

@@ -14,8 +14,4 @@
     <ProjectReference Include="..\Modelo\Model.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Mappings\Profiles\" />
-  </ItemGroup>
-
 </Project>

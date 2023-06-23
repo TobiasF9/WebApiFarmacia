@@ -1,7 +1,9 @@
-﻿using Model.Models;
+﻿using AutoMapper;
+using Model.Models;
 using Models.DTO;
 using Models.ViewModel;
 using Services.Interfaces;
+using Services.Mappings;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -15,41 +17,20 @@ namespace Services.Implementations
     public class MedicineService : IMedicineService
     {
         private readonly MedicinesAPIContext _context;
+        private readonly IMapper _mapper;
 
         public MedicineService(MedicinesAPIContext context)
         {
             _context = context;
+            _mapper = AutoMapperConfig.Configure();
         }
         public List<MedicineDTO> GetMedicineList()
         {
-            var medicine = _context.Medicines.ToList();
-            var response = new List<MedicineDTO>();
-
-            foreach (var x in medicine)
-            {
-                response.Add(new MedicineDTO()
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    Price = x.Price,
-                    Manufacturer = x.Manufacturer
-                });
-            }
-
-            return response;
+            return _mapper.Map<List<MedicineDTO>>(_context.Medicines.ToList());
         }
         public MedicineDTO GetMedicineById(int id)
         {
-            var medicine = _context.Medicines.ToList().Where(x => x.Id == id).First();
-            //usamos un inicializador de objeto
-            var response = new MedicineDTO()
-            {
-                Id = medicine.Id,
-                Name = medicine.Name,
-                Price = medicine.Price,
-                Manufacturer = medicine.Manufacturer
-            };
-            return response;
+            return _mapper.Map<MedicineDTO>(_context.Medicines.Where(x => x.Id == id).First());
         }
         public MedicineDTO CreateMedicine(MedicineViewModel product)
         {
@@ -61,54 +42,31 @@ namespace Services.Implementations
                 Manufacturer = product.Manufacturer
             });
             _context.SaveChanges();
-            var response = new MedicineDTO
-            {
-                Id = product.Id,
-                Name = product.Name,
-                Price = product.Price,
-                Manufacturer = product.Manufacturer
-            };
 
-            return response;
+            var lastMedicine = _context.Medicines.OrderBy(x => x.Id).Last();
+            return _mapper.Map<MedicineDTO>(lastMedicine);
         }
-        //no se si conviene devolver una lista de Medicines o una lista de MedicineDTO
-        //no se si conviene modificar directamente la tabla (con _context.Medicines) o si es mejor, crear una variable y asignarle _context.Medicines
-        public List<MedicineDTO> ModifyMedicine(int id, MedicineViewModel product)
+        public MedicineDTO ModifyMedicine(MedicineViewModel product)
         {
-            //var medicineToModify = _context.Medicines.ToList().Where(x => x.Id == id).First();
-            _context.Medicines.ToList().Where(x => x.Id == id).First().Id = product.Id;
-            _context.Medicines.ToList().Where(x => x.Id == id).First().Name = product.Name;
-            _context.Medicines.ToList().Where(x => x.Id == id).First().Price = product.Price;
-            _context.Medicines.ToList().Where(x => x.Id == id).First().Manufacturer = product.Manufacturer;
+            Medicines medicineToModify = _context.Medicines.Single(s => s.Id == product.Id);
+            //medicineToModify.Id = product.Id;
+            medicineToModify.Name = product.Name;
+            medicineToModify.Price = product.Price;
+            medicineToModify.Manufacturer = product.Manufacturer;
 
             _context.SaveChanges();
-            var response = new List<MedicineDTO>();
+            var medicineModfied = _context.Medicines.FirstOrDefault(x => x.Id == product.Id);
 
-            foreach (var x in _context.Medicines)
-            {
-                response.Add(new MedicineDTO()
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    Price = x.Price,
-                    Manufacturer = x.Manufacturer
-                });
-            }
-            return response;
+            return _mapper.Map<MedicineDTO>(medicineModfied);
         }
         public MedicineDTO RemoveMedicine(int id)
         {
+            //acá el uso del mapper, está mal?
             var medicineToDelete = _context.Medicines.ToList().Where(x => x.Id == id).First();
-            _context.Medicines.Remove(medicineToDelete); //no entiendo esto. no entiendo xq aca no hay que hacer el .ToList()
-
+            var response = _mapper.Map<MedicineDTO>(medicineToDelete);
+            _context.Medicines.Remove(medicineToDelete);
             _context.SaveChanges();
-            var response = new MedicineDTO
-            {
-                Id = medicineToDelete.Id,
-                Name = medicineToDelete.Name,
-                Price = medicineToDelete.Price,
-                Manufacturer = medicineToDelete.Manufacturer
-            };
+
             return response;
         }
     }
