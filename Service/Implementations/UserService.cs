@@ -8,34 +8,40 @@ using System.Threading.Tasks;
 using Model.Models;
 using Models.DTO;
 using Model.ViewModel;
+using AutoMapper;
+using Services.Mappings;
 
 namespace Services.Implementations
 {
     public class UserService : IUserService
     {
         private readonly MedicinesAPIContext _context;
+        private readonly IMapper _mapper;
+
 
         public UserService(MedicinesAPIContext _context)
         {
             this._context = _context;
+            _mapper = AutoMapperConfig.Configure();
         }
 
         public List<UserDTO> GetUserList()
         {
-            var users = _context.Users.ToList();
-            var response = new List<UserDTO>();
+            //var users = _context.Users.ToList();
+            //var response = new List<UserDTO>();
 
-            foreach (var x in users)
-            {
-                response.Add(new UserDTO()
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    IdRole = x.IdRole
-                });
-            }
+            //foreach (var x in users)
+            //{
+            //    response.Add(new UserDTO()
+            //    {
+            //        Id = x.Id,
+            //        Name = x.Name,
+            //        IdRole = x.IdRole
+            //    });
+            //}
 
-            return response;
+            //return response;
+            return _mapper.Map<List<UserDTO>>(_context.Users.ToList());
         }
 
         public UserDTO GetUserById(int id)

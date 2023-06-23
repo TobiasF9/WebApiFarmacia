@@ -15,7 +15,9 @@ namespace Services.Mappings
             var mapperConfiguration = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile<MedicineProfile>();
+                cfg.AddProfile<UserProfile>();
             });
+
 
             IMapper mapper = mapperConfiguration.CreateMapper();
             //mapper.ConfigurationProvider.AssertConfigurationIsValid();

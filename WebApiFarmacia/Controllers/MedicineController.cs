@@ -86,7 +86,7 @@ namespace WebApiMedicines.Controllers
             
         }
         
-        [HttpPut("Modify/{id}")]
+        [HttpPut("Modify")]
         public ActionResult <MedicineDTO> ModifyMedicine([FromBody] MedicineViewModel product)
         {
 

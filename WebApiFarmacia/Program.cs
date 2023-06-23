@@ -5,7 +5,9 @@ using Serilog;
 using Serilog.Events;
 
 var builder = WebApplication.CreateBuilder(args);
-
+//Falta el BAERER ? lo hacemos con postman?
+//AddJWTBearer
+//ValidateIssuerSigninKey Vuelve a generar la firma valida
 //configuracion Serilog
 string logsFolder = Path.Combine(Directory.GetCurrentDirectory(), "Logs");
 Directory.CreateDirectory(logsFolder);
