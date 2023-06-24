@@ -28,12 +28,13 @@ namespace WebApiMedicines.Controllers
         [HttpGet("GetAll")]
         public ActionResult<List<MedicineDTO>> GetMedicineList()
         {
+
             try
             {
                 var response = _medicineService.GetMedicineList();
                 if (response.Count == 0)
                 {
-                    NotFound("There is no medicine");
+                    return NotFound("There is no medicine");
                 }
                 return Ok(response);
             }
@@ -58,13 +59,13 @@ namespace WebApiMedicines.Controllers
             try
             {
                 var response = _medicineService.GetMedicineById(id);
-                if (response == null)
-                {
-                    return NotFound($"The medicine with id {id} was not found");
-                }
-
                 return Ok(response);
             }
+            catch (Exception ex) when(ex.Message == "Sequence contains no elements")
+            {
+                return NotFound($"The medicine with id {id} was not found");
+            } 
+
             catch (Exception ex)
             {
                 _logger.LogCustomError("GetById", ex);

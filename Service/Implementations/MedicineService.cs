@@ -26,7 +26,9 @@ namespace Services.Implementations
         }
         public List<MedicineDTO> GetMedicineList()
         {
-            return _mapper.Map<List<MedicineDTO>>(_context.Medicines.ToList());
+            var list = new List<MedicineDTO>();
+            return list;
+            //return _mapper.Map<List<MedicineDTO>>(_context.Medicines.ToList());
         }
         public MedicineDTO GetMedicineById(int id)
         {
