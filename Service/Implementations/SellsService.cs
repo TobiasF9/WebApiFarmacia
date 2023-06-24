@@ -1,7 +1,9 @@
-﻿using Model.Models;
+﻿using AutoMapper;
+using Model.Models;
 using Models.DTO;
 using Models.ViewModel;
 using Services.Interfaces;
+using Services.Mappings;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -15,10 +17,12 @@ namespace Services.Implementations
     public class SellsService : ISellsService
     {
         private readonly MedicinesAPIContext _context;
+        private readonly IMapper _mapper;
 
         public SellsService(MedicinesAPIContext context)
         {
             _context = context;
+            _mapper = AutoMapperConfig.Configure();
         }
 
         public List<SellsDTO> GetSellsList()
@@ -39,52 +43,55 @@ namespace Services.Implementations
             //}
             //return response;
 
-            List<SellsDTO> responseList = (from sell in _context.Sells
-                                           join medicine in _context.Medicines
-                                           on sell.IdMedicine equals medicine.Id
-                                           join user in _context.Users
-                                           on sell.IdUser equals user.Id
-                                           select new SellsDTO()
-                                           {
-                                               Id = sell.Id,
-                                               //IdMedicine = medicine.Id,
-                                               MedicineName = medicine.Name,
-                                               //IdUser = user.Id,
-                                               UserName = user.Name,
-                                               SellDate = sell.SellDate,
-                                               Amount = sell.Amount
-                                           }
-                                           ).ToList();
+            //List<SellsDTO> responseList = (from sell in _context.Sells
+            //                               join medicine in _context.Medicines
+            //                               on sell.IdMedicine equals medicine.Id
+            //                               join user in _context.Users
+            //                               on sell.IdUser equals user.Id
+            //                               select new SellsDTO()
+            //                               {
+            //                                   Id = sell.Id,
+            //                                   //IdMedicine = medicine.Id,
+            //                                   MedicineName = medicine.Name,
+            //                                   //IdUser = user.Id,
+            //                                   UserName = user.Name,
+            //                                   SellDate = sell.SellDate,
+            //                                   Amount = sell.Amount
+            //                               }
+            //                               ).ToList();
 
-            return responseList;
+            //return responseList;
+            return _mapper.Map<List<SellsDTO>>(_context.Sells.ToList());
         }
 
         public SellsDTO GetSellById(int id)
         {
-                                        //cuando se usa toda esta funcion y cuando no?
-            List<SellsDTO> responseList = (from sell in _context.Sells
-                                       join medicine in _context.Medicines
-                                       on sell.IdMedicine equals medicine.Id
-                                       join user in _context.Users
-                                       on sell.IdUser equals user.Id
-                                       select new SellsDTO()
-                                       {
-                                           Id = sell.Id,
-                                           //IdMedicine = medicine.Id,
-                                           MedicineName = medicine.Name,
-                                           //IdUser = user.Id,
-                                           UserName = user.Name,
-                                           SellDate = sell.SellDate,
-                                           Amount = sell.Amount
-                                       }
-                                       ).ToList();
+            //cuando se usa toda esta funcion y cuando no?
+            //List<SellsDTO> responseList = (from sell in _context.Sells
+            //                           join medicine in _context.Medicines
+            //                           on sell.IdMedicine equals medicine.Id
+            //                           join user in _context.Users
+            //                           on sell.IdUser equals user.Id
+            //                           select new SellsDTO()
+            //                           {
+            //                               Id = sell.Id,
+            //                               //IdMedicine = medicine.Id,
+            //                               MedicineName = medicine.Name,
+            //                               //IdUser = user.Id,
+            //                               UserName = user.Name,
+            //                               SellDate = sell.SellDate,
+            //                               Amount = sell.Amount
+            //                           }
+            //                           ).ToList();
 
-            SellsDTO response = responseList.First(s => s.Id == id);
-            return response;
+            //SellsDTO response = responseList.First(s => s.Id == id);
+            //return response;
+            return _mapper.Map<SellsDTO>(_context.Sells.Where(x => x.Id == id).First());
         }
 
         public SellsDTO CreateSell(SellsViewModel sell)
         {
+            
             _context.Sells.Add(new Sells()
             {
                 IdMedicine = sell.IdMedicine,
@@ -93,14 +100,9 @@ namespace Services.Implementations
                 Amount = sell.Amount
             });
             _context.SaveChanges();
-            var response = new SellsDTO()
-            {
-                IdMedicine = sell.IdMedicine,
-                IdUser = sell.IdUser,
-                SellDate = sell.SellDate,
-                Amount = sell.Amount
-            };
-            return response;
+
+            var lastMedicine = _context.Medicines.OrderBy(x => x.Id).Last();
+            return _mapper.Map<SellsDTO>(lastMedicine);
         }
 
         public List<SellsDTO> ModifySell(int id, SellsViewModel sell)
@@ -130,18 +132,11 @@ namespace Services.Implementations
 
         public SellsDTO RemoveSell(int id)
         {
-            var sellToDelete = _context.Sells.ToList().Where(x => x.Id == id).First();
-            _context.Sells.Remove(sellToDelete);
-
+            var SellsToDelete = _context.Sells.ToList().Where(x => x.Id == id).First();
+            var response = _mapper.Map<SellsDTO>(SellsToDelete);
+            _context.Sells.Remove(SellsToDelete);
             _context.SaveChanges();
-            var response = new SellsDTO
-            {
-                Id = sellToDelete.Id,
-                IdMedicine = sellToDelete.IdMedicine,
-                IdUser = sellToDelete.IdUser,
-                SellDate = sellToDelete.SellDate,
-                Amount = sellToDelete.Amount
-            };
+
             return response;
         }
     }

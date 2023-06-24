@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Model.Models;
 using Models.DTO;
 using Models.ViewModel;
+using Services.Implementations;
 using Services.Interfaces;
+using WebApiMedicines.Common;
 
 namespace WebApiMedicines.Controllers
 {
@@ -12,33 +14,70 @@ namespace WebApiMedicines.Controllers
     public class SellsController : ControllerBase
     {
         private readonly ISellsService _sellsService;
+        private readonly ILogger<SellsController> _logger;
 
-        public SellsController(ISellsService sellsService)
+        public SellsController(ISellsService sellsService, ILogger<SellsController> logger)
         {
             _sellsService = sellsService;
+            _logger = logger;
         }
 
         [HttpGet("GetSellsList")]
         public ActionResult<List<SellsDTO>> GetSellsList()
         {
-            var response = _sellsService.GetSellsList();
-            return Ok(response);
+            try
+            {
+                var response = _sellsService.GetSellsList();
+                if (response.Count == 0)
+                {
+                    NotFound("There is not sells");
+                }
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCustomError("GetAll", ex);
+                return BadRequest($"{ex.Message}");
+            }
         }
 
         [HttpGet("GetSellsById/{id}")]
         public ActionResult<SellsDTO> GetsSellId(int id)
         {
-            var response = _sellsService.GetSellById(id);
+            try
+            {
+                var response = _sellsService.GetSellById(id);
+                if (response == null)
+                {
+                    return NotFound($"The sell with id {id} was not found");
+                }
 
-            return Ok(response);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCustomError("GetById", ex);
+                return BadRequest($"{ex.Message}");
+            }
         }
 
         [HttpPost("PostSells")]
         public ActionResult<SellsDTO> CreateSell([FromBody] SellsViewModel sell)
         {
-            var response = _sellsService.CreateSell(sell);
+            try
+            {
+                var response = _sellsService.CreateSell(sell);
 
-            return Ok(response);
+                string baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}";
+                string apiAndEndpointUrl = $"api/Sells/GetById";
+                string locationUrl = $"{baseUrl}/{apiAndEndpointUrl}/{response.Id}";
+                return Created(locationUrl, response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCustomError("Create", ex);
+                return BadRequest($"{ex.Message}");
+            }
         }
 
         [HttpPut("PutSells/{id}")]
@@ -49,7 +88,7 @@ namespace WebApiMedicines.Controllers
             return Ok(response);
         }
         [HttpDelete("DeleteSells/{id}")]
-        public ActionResult<Sells> RemoveMedicine(int id)
+        public ActionResult<Sells> RemoveSells(int id)
         {
             var response = _sellsService.RemoveSell(id);
 

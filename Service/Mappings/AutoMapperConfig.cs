@@ -16,6 +16,7 @@ namespace Services.Mappings
             {
                 cfg.AddProfile<MedicineProfile>();
                 cfg.AddProfile<UserProfile>();
+                cfg.AddProfile<SellsProfile>();
             });
 
 
