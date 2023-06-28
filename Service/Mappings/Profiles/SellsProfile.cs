@@ -16,6 +16,7 @@ namespace Services.Mappings.Profiles
     {
         public SellsProfile()
         {
+            //como hago para que SellsDTO tenga MedicineName y UserName?
             CreateMap<Sells, SellsDTO>();
             //.ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
 

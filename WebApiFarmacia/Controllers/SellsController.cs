@@ -22,7 +22,7 @@ namespace WebApiMedicines.Controllers
             _logger = logger;
         }
 
-        [HttpGet("GetSellsList")]
+        [HttpGet("GetAll")]
         public ActionResult<List<SellsDTO>> GetSellsList()
         {
             try
@@ -41,18 +41,17 @@ namespace WebApiMedicines.Controllers
             }
         }
 
-        [HttpGet("GetSellsById/{id}")]
+        [HttpGet("GetById/{id}")]
         public ActionResult<SellsDTO> GetsSellId(int id)
         {
             try
             {
                 var response = _sellsService.GetSellById(id);
-                if (response == null)
-                {
-                    return NotFound($"The sell with id {id} was not found");
-                }
-
                 return Ok(response);
+            }
+            catch (Exception ex) when (ex.Message == "Sequence contains no elements")
+            {
+                return NotFound($"The sell with id {id} was not found");
             }
             catch (Exception ex)
             {

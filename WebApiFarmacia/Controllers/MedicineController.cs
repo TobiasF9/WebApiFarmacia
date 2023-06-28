@@ -65,7 +65,6 @@ namespace WebApiMedicines.Controllers
             {
                 return NotFound($"The medicine with id {id} was not found");
             } 
-
             catch (Exception ex)
             {
                 _logger.LogCustomError("GetById", ex);
