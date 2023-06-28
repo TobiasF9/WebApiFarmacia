@@ -75,25 +75,34 @@ namespace Services.Implementations
             return response;
         }
 
-        public List<UserDTO> ModifyUser(int id, UserViewModel user)
+        public UserDTO ModifyUser(UserViewModel user)
         {
-            _context.Users.ToList().Where(x => x.Id == id).First().Id = user.Id;
-            _context.Users.ToList().Where(x => x.Id == id).First().Name = user.Name;
-            _context.Users.ToList().Where(x => x.Id == id).First().IdRole = user.IdRole;
+            //_context.Users.ToList().Where(x => x.Id == id).First().Id = user.Id;
+            //_context.Users.ToList().Where(x => x.Id == id).First().Name = user.Name;
+            //_context.Users.ToList().Where(x => x.Id == id).First().IdRole = user.IdRole;
+
+            //_context.SaveChanges();
+            //var response = new List<UserDTO>();
+
+            //foreach (var x in _context.Users)
+            //{
+            //    response.Add(new UserDTO()
+            //    {
+            //        Id = x.Id,
+            //        Name = x.Name,
+            //        IdRole = x.IdRole
+            //    });
+            //}
+            //return response;
+            Users userToModify = _context.Users.Single(s => s.Id == user.Id);
+            //sellToModify.Id = sell.Id;
+            userToModify.Name = user.Name;
+            userToModify.IdRole = user.IdRole;
 
             _context.SaveChanges();
-            var response = new List<UserDTO>();
+            var userModfied = _context.Users.FirstOrDefault(x => x.Id == user.Id);
 
-            foreach (var x in _context.Users)
-            {
-                response.Add(new UserDTO()
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    IdRole = x.IdRole
-                });
-            }
-            return response;
+            return _mapper.Map<UserDTO>(userModfied);
         }
 
         public UserDTO RemoveUser(int id)

@@ -105,29 +105,40 @@ namespace Services.Implementations
             return _mapper.Map<SellsDTO>(lastMedicine);
         }
 
-        public List<SellsDTO> ModifySell(int id, SellsViewModel sell)
+        public SellsDTO ModifySell(SellsViewModel sell)
         {
-            _context.Sells.ToList().Where(x => x.Id == id).First().Id = sell.Id;
-            _context.Sells.ToList().Where(x => x.Id == id).First().IdMedicine = sell.IdMedicine;
-            _context.Sells.ToList().Where(x => x.Id == id).First().IdUser = sell.IdUser;
-            _context.Sells.ToList().Where(x => x.Id == id).First().SellDate = sell.SellDate;
-            _context.Sells.ToList().Where(x => x.Id == id).First().Amount = sell.Amount;
+            //_context.Sells.ToList().Where(x => x.Id == id).First().Id = sell.Id;
+            //_context.Sells.ToList().Where(x => x.Id == id).First().IdMedicine = sell.IdMedicine;
+            //_context.Sells.ToList().Where(x => x.Id == id).First().IdUser = sell.IdUser;
+            //_context.Sells.ToList().Where(x => x.Id == id).First().SellDate = sell.SellDate;
+            //_context.Sells.ToList().Where(x => x.Id == id).First().Amount = sell.Amount;
+
+            //_context.SaveChanges();
+            //var response = new List<SellsDTO>();
+
+            //foreach (var x in _context.Sells)
+            //{
+            //    response.Add(new SellsDTO()
+            //    {
+            //        Id = x.Id,
+            //        IdMedicine = x.IdMedicine,
+            //        IdUser = x.IdUser,
+            //        SellDate = x.SellDate,
+            //        Amount = x.Amount
+            //    });
+            //}
+            //return response;
+            Sells sellToModify = _context.Sells.Single(s => s.Id == sell.Id);
+            //sellToModify.Id = sell.Id;
+            sellToModify.IdMedicine = sell.IdMedicine;
+            sellToModify.IdUser = sell.IdUser;
+            sellToModify.SellDate = sell.SellDate;
+            sellToModify.Amount = sell.Amount;
 
             _context.SaveChanges();
-            var response = new List<SellsDTO>();
+            var sellModfied = _context.Sells.FirstOrDefault(x => x.Id == sell.Id);
 
-            foreach (var x in _context.Sells)
-            {
-                response.Add(new SellsDTO()
-                {
-                    Id = x.Id,
-                    IdMedicine = x.IdMedicine,
-                    IdUser = x.IdUser,
-                    SellDate = x.SellDate,
-                    Amount = x.Amount
-                });
-            }
-            return response;
+            return _mapper.Map<SellsDTO>(sellModfied);
         }
 
         public SellsDTO RemoveSell(int id)

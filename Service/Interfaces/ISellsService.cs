@@ -14,7 +14,7 @@ namespace Services.Interfaces
         List<SellsDTO> GetSellsList();
         SellsDTO GetSellById(int id);
         SellsDTO CreateSell(SellsViewModel sell);
-        List<SellsDTO> ModifySell(int id, SellsViewModel sell);
+        SellsDTO ModifySell(SellsViewModel sell);
         SellsDTO RemoveSell(int id);
     }
 }

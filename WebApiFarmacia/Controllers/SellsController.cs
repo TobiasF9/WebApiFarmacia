@@ -60,7 +60,7 @@ namespace WebApiMedicines.Controllers
             }
         }
 
-        [HttpPost("PostSells")]
+        [HttpPost("Create")]
         public ActionResult<SellsDTO> CreateSell([FromBody] SellsViewModel sell)
         {
             try
@@ -79,19 +79,41 @@ namespace WebApiMedicines.Controllers
             }
         }
 
-        [HttpPut("PutSells/{id}")]
-        public ActionResult<Sells> ModifySell(int id, [FromBody] SellsViewModel sell)
+        [HttpPut("Modify")]
+        public ActionResult<SellsDTO> ModifySell([FromBody] SellsViewModel sell)
         {
-            var response = _sellsService.ModifySell(id, sell);
+            try
+            {
+                var response = _sellsService.ModifySell(sell);
 
-            return Ok(response);
+                string baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}";
+                string apiAndEndpointUrl = $"api/Sells/GetById";
+                string locationUrl = $"{baseUrl}/{apiAndEndpointUrl}/{response.Id}";
+                return Created(locationUrl, response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCustomError("Modify", ex);
+                return BadRequest($"{ex.Message}");
+            }
+            
         }
-        [HttpDelete("DeleteSells/{id}")]
+
+        [HttpDelete("Delete/{id}")]
         public ActionResult<Sells> RemoveSells(int id)
         {
-            var response = _sellsService.RemoveSell(id);
+            try
+            {
+                var response = _sellsService.RemoveSell(id);
 
-            return Ok(response);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCustomError("Delete", ex);
+                return BadRequest($"{ex.Message}");
+            }
+            
         }
     }
 }

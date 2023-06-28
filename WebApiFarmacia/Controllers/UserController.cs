@@ -6,6 +6,7 @@ using Model.ViewModel;
 using Models.DTO;
 using Services.Implementations;
 using Services.Interfaces;
+using WebApiMedicines.Common;
 
 namespace WebApiMedicines.Controllers
 {
@@ -14,44 +15,102 @@ namespace WebApiMedicines.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly ILogger<UserController> _logger;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, ILogger<UserController> logger)
         {
             _userService = userService;
+            _logger = logger;
         }
-        [HttpGet("GetUserList")]
+
+        [HttpGet("GetAll")]
         public ActionResult<List<UserDTO>> GetUserList()
         {
-            var response = _userService.GetUserList();
-            return Ok(response);
+            try
+            {
+                var response = _userService.GetUserList();
+                if (response.Count == 0)
+                {
+                    return NotFound("There is no user");
+                }
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCustomError("GetAll", ex);
+                return BadRequest($"{ex.Message}");
+            }
+            
         }
-        [HttpGet("GetUserByid/{id}")]
+        [HttpGet("GetByid/{id}")]
         public ActionResult<UserDTO> GetUserById(int id)
         {
-            var response = _userService.GetUserById(id);
-            return Ok(response);
+            try
+            {
+                var response = _userService.GetUserById(id);
+                return Ok(response);
+            }
+            catch (Exception ex) when (ex.Message == "Sequence contains no elements")
+            {
+                return NotFound($"The user with id {id} was not found");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCustomError("GetById", ex);
+                return BadRequest($"{ex.Message}");
+            }
+            
         }
-        [HttpPost("CreateUser")]
+        [HttpPost("Create")]
         public ActionResult<UserDTO> CreateUser([FromBody] UserViewModel user)
         {
-            var response = _userService.CreateUser(user);
+            try
+            {
+                var response = _userService.CreateUser(user);
 
-            return Ok(response);
+                string baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}";
+                string apiAndEndpointUrl = $"api/User/GetById";
+                string locationUrl = $"{baseUrl}/{apiAndEndpointUrl}/{response.Id}";
+                return Created(locationUrl, response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCustomError("Create", ex);
+                return BadRequest($"{ex.Message}");
+            }
         }
 
-        [HttpPut("PutUser/{id}")]
-        public ActionResult <List<UserDTO>> ModifyUser(int id, [FromBody] UserViewModel user)
+        [HttpPut("Modify")]
+        public ActionResult<UserDTO> ModifyUser([FromBody] UserViewModel user)
         {
-            var response = _userService.ModifyUser(id, user);
-
-            return Ok(response);
+            try
+            {
+                var response = _userService.ModifyUser(user);
+                string baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}";
+                string apiAndEndpointUrl = $"api/User/GetById";
+                string locationUrl = $"{baseUrl}/{apiAndEndpointUrl}/{response.Id}";
+                return Created(locationUrl, response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCustomError("Modify", ex);
+                return BadRequest($"{ex.Message}");
+            }
+            
         }
-        [HttpDelete("DeleteUser/{id}")]
+        [HttpDelete("Delete/{id}")]
         public ActionResult<UserDTO> RemoveUser(int id)
         {
-            var response = _userService.RemoveUser(id);
-
-            return Ok(response);
+            try
+            {
+                var response = _userService.RemoveUser(id);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCustomError("Delete", ex);
+                return BadRequest($"{ex.Message}");
+            }
         }
     }
 }

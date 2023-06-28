@@ -40,7 +40,6 @@ namespace WebApiMedicines.Controllers
             }
             catch (Exception ex)
             {
-                //el "getAll" de este log no está un poco generico?
                 _logger.LogCustomError("GetAll", ex);
                 return BadRequest($"{ex.Message}");
             }
