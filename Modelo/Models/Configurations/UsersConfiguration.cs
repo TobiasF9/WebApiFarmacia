@@ -14,11 +14,19 @@ namespace Model.Models.Configurations
         {
             entity.Property(e => e.Id).HasColumnName("id");
 
+            entity.Property(e => e.Email)
+                .HasMaxLength(250)
+                .HasColumnName("email");
+
             entity.Property(e => e.IdRole).HasColumnName("id_role");
 
             entity.Property(e => e.Name)
                 .HasMaxLength(250)
                 .HasColumnName("name");
+
+            entity.Property(e => e.Password)
+                .HasMaxLength(500)
+                .HasColumnName("password");
 
             entity.HasOne(d => d.IdRoleNavigation)
                 .WithMany(p => p.Users)

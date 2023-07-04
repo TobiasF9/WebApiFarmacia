@@ -15,6 +15,8 @@ namespace Model.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public int IdRole { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
 
         public virtual Role IdRoleNavigation { get; set; }
         public virtual ICollection<Sells> Sells { get; set; }

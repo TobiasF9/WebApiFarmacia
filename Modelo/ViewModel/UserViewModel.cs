@@ -13,5 +13,7 @@ namespace Model.ViewModel
         public int? DNI { get; set; }
         public float Balance { get; set; }
         public int IdRole { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
     }
 }

@@ -3,10 +3,39 @@ using Microsoft.EntityFrameworkCore;
 using Model.Models;
 using Serilog;
 using Serilog.Events;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Model.Helper;
 
 var builder = WebApplication.CreateBuilder(args);
-//Falta el BAERER ? lo hacemos con postman?
-//AddJWTBearer
+
+var appSettingsSection = builder.Configuration.GetSection("AppSettings");
+
+builder.Services.Configure<AppSettings>(appSettingsSection);
+
+var appSettings = appSettingsSection.Get<AppSettings>();
+var key = Encoding.ASCII.GetBytes(appSettings?.Key);
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.RequireHttpsMetadata = true;
+    options.SaveToken = true;
+    options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+        ValidateIssuer = false,
+        ValidateAudience = false
+    };
+});
+
+
+
 //ValidateIssuerSigninKey Vuelve a generar la firma valida
 //configuracion Serilog
 string logsFolder = Path.Combine(Directory.GetCurrentDirectory(), "Logs");
@@ -42,6 +71,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
