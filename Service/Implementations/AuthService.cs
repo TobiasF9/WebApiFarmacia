@@ -58,7 +58,8 @@ namespace Services.Implementations
 
         public string Login(AuthViewModel User)
         {
-            Users? user = _context.Users.FirstOrDefault(x => x.Email == User.Email && x.Password == User.Password);
+            var contraseñaHasheada = User.Password.GetSHA256();
+            Users? user = _context.Users.FirstOrDefault(x => x.Email == User.Email && x.Password == contraseñaHasheada);
 
             if (user == null)
             {

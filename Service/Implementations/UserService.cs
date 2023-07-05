@@ -18,7 +18,6 @@ namespace Services.Implementations
         private readonly MedicinesAPIContext _context;
         private readonly IMapper _mapper;
 
-
         public UserService(MedicinesAPIContext _context)
         {
             this._context = _context;
@@ -51,25 +50,29 @@ namespace Services.Implementations
             {
                 Id = users.Id,
                 Name = users.Name,
-                IdRole = users.IdRole
+                IdRole = users.IdRole,
+                Email = users.Email
             };
 
             return response;
         }
+        //hay que borrar este post?
         public UserDTO CreateUser(UserViewModel user)
         {
             _context.Users.Add(new Users()
             {
                 //Id = user.Id,
                 Name = user.Name,
-                IdRole = user.IdRole
+                IdRole = user.IdRole,
+                Email = user.Email
             });
             _context.SaveChanges();
             var response = new UserDTO
             {
                     Id = user.Id,
                     Name = user.Name,
-                    IdRole = user.IdRole
+                    IdRole = user.IdRole,
+                    Email = user.Email
             };
             
             return response;
@@ -98,6 +101,8 @@ namespace Services.Implementations
             //sellToModify.Id = sell.Id;
             userToModify.Name = user.Name;
             userToModify.IdRole = user.IdRole;
+            userToModify.Email = user.Email;
+            //userToModify.Password = user.Password;
 
             _context.SaveChanges();
             var userModfied = _context.Users.FirstOrDefault(x => x.Id == user.Id);
@@ -115,7 +120,8 @@ namespace Services.Implementations
             {
                 Id = userToDelete.Id,
                 Name = userToDelete.Name,
-                IdRole = userToDelete.IdRole
+                IdRole = userToDelete.IdRole,
+                Email = userToDelete.Email
             };
             return response;
         }

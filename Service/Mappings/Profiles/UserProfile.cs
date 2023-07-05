@@ -20,7 +20,7 @@ namespace Services.Mappings.Profiles
             //.ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
 
             CreateMap<List<Users>, List<UserDTO>>()
-                .ConvertUsing(src => src.Select(e => new UserDTO { Name = e.Name, Id = e.Id, IdRole = e.IdRole}).ToList());
+                .ConvertUsing(src => src.Select(e => new UserDTO { Name = e.Name, Id = e.Id, IdRole = e.IdRole, Email = e.Email}).ToList());
 
             CreateMap<UserViewModel, Users>();
 

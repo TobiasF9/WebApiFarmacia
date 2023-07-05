@@ -46,7 +46,7 @@ namespace WebApiMedicines.Controllers
             
         }
 
-        [HttpGet("GetById/{id}")]
+        [HttpGet("GetById")]
         public ActionResult<MedicineDTO> GetMedicineById(int id)
         {
             ////string? rol = User.Claims.FirstOrDefault(c => c.Properties.ContainsKey("role"))?.Value;
