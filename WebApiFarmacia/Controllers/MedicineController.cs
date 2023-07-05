@@ -112,7 +112,7 @@ namespace WebApiMedicines.Controllers
             }
 
         }
-        [HttpDelete("Delete/{id}")]
+        [HttpDelete("Delete")]
         public ActionResult<MedicineDTO> RemoveMedicine(int id)
         {
 

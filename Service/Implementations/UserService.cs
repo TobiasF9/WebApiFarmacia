@@ -10,6 +10,7 @@ using Models.DTO;
 using Model.ViewModel;
 using AutoMapper;
 using Services.Mappings;
+using Services.Helper;
 
 namespace Services.Implementations
 {
@@ -102,7 +103,7 @@ namespace Services.Implementations
             userToModify.Name = user.Name;
             userToModify.IdRole = user.IdRole;
             userToModify.Email = user.Email;
-            //userToModify.Password = user.Password;
+            userToModify.Password = user.Password.GetSHA256();
 
             _context.SaveChanges();
             var userModfied = _context.Users.FirstOrDefault(x => x.Id == user.Id);

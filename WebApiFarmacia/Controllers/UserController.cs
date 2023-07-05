@@ -42,7 +42,7 @@ namespace WebApiMedicines.Controllers
             }
             
         }
-        [HttpGet("GetByid/{id}")]
+        [HttpGet("GetByid")]
         public ActionResult<UserDTO> GetUserById(int id)
         {
             try
@@ -98,7 +98,7 @@ namespace WebApiMedicines.Controllers
             }
             
         }
-        [HttpDelete("Delete/{id}")]
+        [HttpDelete("Delete")]
         public ActionResult<UserDTO> RemoveUser(int id)
         {
             try

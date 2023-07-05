@@ -41,7 +41,7 @@ namespace WebApiMedicines.Controllers
             }
         }
 
-        [HttpGet("GetById/{id}")]
+        [HttpGet("GetById")]
         public ActionResult<SellsDTO> GetsSellId(int id)
         {
             try
@@ -99,7 +99,7 @@ namespace WebApiMedicines.Controllers
             
         }
 
-        [HttpDelete("Delete/{id}")]
+        [HttpDelete("Delete")]
         public ActionResult<Sells> RemoveSells(int id)
         {
             try
