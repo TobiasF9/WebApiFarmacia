@@ -13,11 +13,9 @@ namespace Model.Models.Configurations
         public void Configure(EntityTypeBuilder<Sells> entity)
         {
             entity.HasKey(e => new { e.Id, e.IdMedicine, e.IdUser })
-                .HasName("PK__Sells__DF40F8B417684198");
+                .HasName("PK__Sells__DF40F8B49322ABE9");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
 
             entity.Property(e => e.IdMedicine).HasColumnName("idMedicine");
 
@@ -35,13 +33,13 @@ namespace Model.Models.Configurations
                 .WithMany(p => p.Sells)
                 .HasForeignKey(d => d.IdMedicine)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Sells__idMedicin__06CD04F7");
+                .HasConstraintName("FK__Sells__idMedicin__160F4887");
 
             entity.HasOne(d => d.IdUserNavigation)
                 .WithMany(p => p.Sells)
                 .HasForeignKey(d => d.IdUser)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Sells__idUser__07C12930");
+                .HasConstraintName("FK__Sells__idUser__17036CC0");
 
             OnConfigurePartial(entity);
         }

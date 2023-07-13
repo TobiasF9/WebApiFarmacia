@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model.DTO;
 using Model.Models;
@@ -6,6 +7,7 @@ using Model.ViewModel;
 using Models.DTO;
 using Services.Implementations;
 using Services.Interfaces;
+using System.Security.Claims;
 using WebApiMedicines.Common;
 
 namespace WebApiMedicines.Controllers
@@ -24,16 +26,21 @@ namespace WebApiMedicines.Controllers
         }
 
         [HttpGet("GetAll")]
+        [Authorize]
         public ActionResult<List<UserDTO>> GetUserList()
         {
             try
             {
-                var response = _userService.GetUserList();
+                if (HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role).Value == "Admin")
+                {
+                    var response = _userService.GetUserList();
                 if (response.Count == 0)
                 {
                     return NotFound("There is no user");
                 }
                 return Ok(response);
+                }
+                throw new Exception("You don't have the Administrator role");
             }
             catch (Exception ex)
             {
@@ -43,12 +50,17 @@ namespace WebApiMedicines.Controllers
             
         }
         [HttpGet("GetByid")]
+        [Authorize]
         public ActionResult<UserDTO> GetUserById(int id)
         {
             try
             {
-                var response = _userService.GetUserById(id);
+                if (HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role).Value == "Admin")
+                {
+                    var response = _userService.GetUserById(id);
                 return Ok(response);
+                }
+                throw new Exception("You don't have the Administrator role");
             }
             catch (Exception ex) when (ex.Message == "Sequence contains no elements")
             {
@@ -63,15 +75,20 @@ namespace WebApiMedicines.Controllers
         }
 
         [HttpPut("Modify")]
+        [Authorize]
         public ActionResult<UserDTO> ModifyUser([FromBody] UserViewModel user)
         {
             try
             {
-                var response = _userService.ModifyUser(user);
+                if (HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role).Value == "Admin")
+                {
+                    var response = _userService.ModifyUser(user);
                 string baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}";
                 string apiAndEndpointUrl = $"api/User/GetById";
                 string locationUrl = $"{baseUrl}/{apiAndEndpointUrl}/{response.Id}";
                 return Created(locationUrl, response);
+                }
+                throw new Exception("You don't have the Administrator role");
             }
             catch (Exception ex)
             {
@@ -81,12 +98,17 @@ namespace WebApiMedicines.Controllers
             
         }
         [HttpDelete("Delete")]
+        [Authorize]
         public ActionResult<UserDTO> RemoveUser(int id)
         {
             try
             {
-                var response = _userService.RemoveUser(id);
+                if (HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role).Value == "Admin")
+                {
+                    var response = _userService.RemoveUser(id);
                 return Ok(response);
+                }
+                throw new Exception("You don't have the Administrator role");
             }
             catch (Exception ex)
             {

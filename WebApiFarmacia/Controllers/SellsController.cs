@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Model.Models;
 using Models.DTO;
 using Models.ViewModel;
 using Services.Implementations;
 using Services.Interfaces;
+using System.Security.Claims;
 using WebApiMedicines.Common;
 
 namespace WebApiMedicines.Controllers
@@ -23,16 +26,21 @@ namespace WebApiMedicines.Controllers
         }
 
         [HttpGet("GetAll")]
+        [Authorize]
         public ActionResult<List<SellsDTO>> GetSellsList()
         {
             try
             {
-                var response = _sellsService.GetSellsList();
-                if (response.Count == 0)
+                if (HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role).Value == "Admin")
                 {
-                    NotFound("There is not sells");
+                    var response = _sellsService.GetSellsList();
+                    if (response.Count == 0)
+                    {
+                        NotFound("There is not sells");
+                    }
+                    return Ok(response);
                 }
-                return Ok(response);
+                throw new Exception("You don't have the Administrator role");
             }
             catch (Exception ex)
             {
@@ -42,12 +50,16 @@ namespace WebApiMedicines.Controllers
         }
 
         [HttpGet("GetById")]
-        public ActionResult<SellsDTO> GetsSellId(int id)
+        public ActionResult<List<SellsDTO>> GetsSellId(int id)
         {
             try
             {
-                var response = _sellsService.GetSellById(id);
+                if (HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role).Value == "Admin")
+                {
+                    var response = _sellsService.GetSellById(id);
                 return Ok(response);
+                }
+                throw new Exception("You don't have the Administrator role");
             }
             catch (Exception ex) when (ex.Message == "Sequence contains no elements")
             {
@@ -65,12 +77,16 @@ namespace WebApiMedicines.Controllers
         {
             try
             {
-                var response = _sellsService.CreateSell(sell);
+                if (HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role).Value == "Admin")
+                {
+                    var response = _sellsService.CreateSell(sell);
 
                 string baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}";
                 string apiAndEndpointUrl = $"api/Sells/GetById";
                 string locationUrl = $"{baseUrl}/{apiAndEndpointUrl}/{response.Id}";
                 return Created(locationUrl, response);
+                }
+                throw new Exception("You don't have the Administrator role");
             }
             catch (Exception ex)
             {
@@ -84,12 +100,16 @@ namespace WebApiMedicines.Controllers
         {
             try
             {
-                var response = _sellsService.ModifySell(sell);
+                if (HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role).Value == "Admin")
+                {
+                    var response = _sellsService.ModifySell(sell);
 
                 string baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}";
                 string apiAndEndpointUrl = $"api/Sells/GetById";
                 string locationUrl = $"{baseUrl}/{apiAndEndpointUrl}/{response.Id}";
                 return Created(locationUrl, response);
+                }
+                throw new Exception("You don't have the Administrator role");
             }
             catch (Exception ex)
             {
@@ -100,13 +120,17 @@ namespace WebApiMedicines.Controllers
         }
 
         [HttpDelete("Delete")]
-        public ActionResult<Sells> RemoveSells(int id)
+        public ActionResult<List<Sells>> RemoveSells(int id)
         {
             try
             {
-                var response = _sellsService.RemoveSell(id);
+                if (HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role).Value == "Admin")
+                {
+                    var response = _sellsService.RemoveSell(id);
 
                 return Ok(response);
+                }
+                throw new Exception("You don't have the Administrator role");
             }
             catch (Exception ex)
             {

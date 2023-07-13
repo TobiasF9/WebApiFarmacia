@@ -34,6 +34,26 @@ namespace Services.Implementations
         {
             return _mapper.Map<MedicineDTO>(_context.Medicines.Where(x => x.Id == id).First());
         }
+        public MedicineDTO GetMedicineMostSelled()
+        {
+            var groupedSells = _context.Sells
+            .GroupBy(s => s.IdMedicine)
+            .Select(g => new { IdMedicine = g.Key, Count = g.Count() });
+
+            var mostSold = groupedSells.OrderByDescending(g => g.Count).FirstOrDefault();
+            
+            var mostSoldProduct = _context.Medicines.Find(mostSold.IdMedicine);
+
+            var mostSoldProductDTO = new MedicineDTO
+            {
+                Id = mostSoldProduct.Id,
+                Name = mostSoldProduct.Name,
+                Price = mostSoldProduct.Price,
+                Manufacturer = mostSoldProduct.Manufacturer
+            };
+
+            return mostSoldProductDTO;
+        }
         public MedicineDTO CreateMedicine(MedicineViewModel product)
         {
             _context.Medicines.Add(new Medicines() 

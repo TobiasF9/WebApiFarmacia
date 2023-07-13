@@ -8,12 +8,12 @@ using Model.Models;
 using Models.ViewModel;
 using WebApiMedicines.Common;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace WebApiMedicines.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
     public class MedicineController : ControllerBase
     {
         private readonly IMedicineService _medicineService;
@@ -26,17 +26,22 @@ namespace WebApiMedicines.Controllers
         }
 
         [HttpGet("GetAll")]
+        [Authorize]
         public ActionResult<List<MedicineDTO>> GetMedicineList()
         {
 
             try
             {
-                var response = _medicineService.GetMedicineList();
+                if (HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role).Value == "User" || HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role).Value == "Admin")
+                {
+                    var response = _medicineService.GetMedicineList();
                 if (response.Count == 0)
                 {
                     return NotFound("There is no medicine");
                 }
                 return Ok(response);
+                }
+                throw new Exception("You don't have the User or Administrator role");
             }
             catch (Exception ex)
             {
@@ -47,18 +52,17 @@ namespace WebApiMedicines.Controllers
         }
 
         [HttpGet("GetById")]
+        [Authorize]
         public ActionResult<MedicineDTO> GetMedicineById(int id)
         {
-            ////string? rol = User.Claims.FirstOrDefault(c => c.Properties.ContainsKey("role"))?.Value;
-            ////if(rol == "admin")
-            ////{
-            ////    return Ok(_medicineService.GetMedicineById(id)); //corregir
-            //}
-            //return Unauthorized();
             try
             {
-                var response = _medicineService.GetMedicineById(id);
+                if (HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role).Value == "User" || HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role).Value == "Admin")
+                {
+                    var response = _medicineService.GetMedicineById(id);
                 return Ok(response);
+                }
+                throw new Exception("You don't have the User or Administrator role");
             }
             catch (Exception ex) when(ex.Message == "Sequence contains no elements")
             {
@@ -71,18 +75,48 @@ namespace WebApiMedicines.Controllers
             }
             
         }
+        [HttpGet("GetMedicineMostSelled")]
+        [Authorize]
+        public ActionResult<List<MedicineDTO>> GetMedicineMostSelled()
+        {
+
+            try
+            {
+                if (HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role).Value == "Admin")
+                {
+                    var response = _medicineService.GetMedicineMostSelled();
+                if (response == null)
+                {
+                    return NotFound("There is no medicine sold");
+                }
+                return Ok(response);
+                }
+                throw new Exception("You don't have the Administrator role");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCustomError("GetAll", ex);
+                return BadRequest($"{ex.Message}");
+            }
+
+        }
 
         [HttpPost("Create")]
+        [Authorize]
         public ActionResult<MedicineDTO> CreateMedicine([FromBody] MedicineViewModel product)
         {
             try
             {
-                var response = _medicineService.CreateMedicine(product);
+                if (HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role).Value == "Admin")
+                {
+                    var response = _medicineService.CreateMedicine(product);
                 
                 string baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}";
                 string apiAndEndpointUrl = $"api/Medicine/GetById";
                 string locationUrl = $"{baseUrl}/{apiAndEndpointUrl}/{response.Id}";
                 return Created(locationUrl, response);
+                }
+                throw new Exception("You don't have the Administrator role");
             }
             catch (Exception ex)
             {
@@ -93,17 +127,22 @@ namespace WebApiMedicines.Controllers
         }
         
         [HttpPut("Modify")]
+        [Authorize]
         public ActionResult <MedicineDTO> ModifyMedicine([FromBody] MedicineViewModel product)
         {
 
             try
             {
-                var response = _medicineService.ModifyMedicine(product);
+                if (HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role).Value == "Admin")
+                {
+                    var response = _medicineService.ModifyMedicine(product);
 
                 string baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}";
                 string apiAndEndpointUrl = $"api/Medicine/GetById";
                 string locationUrl = $"{baseUrl}/{apiAndEndpointUrl}/{response.Id}";
                 return Created(locationUrl, response);
+                }
+                throw new Exception("You don't have the Administrator role");
             }
             catch (Exception ex)
             {
@@ -113,14 +152,19 @@ namespace WebApiMedicines.Controllers
 
         }
         [HttpDelete("Delete")]
+        [Authorize]
         public ActionResult<MedicineDTO> RemoveMedicine(int id)
         {
 
             try
             {
-                var response = _medicineService.RemoveMedicine(id);
+                if (HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role).Value == "Admin")
+                {
+                    var response = _medicineService.RemoveMedicine(id);
 
                 return Ok(response);
+                }
+                throw new Exception("You don't have the Administrator role");
             }
             catch (Exception ex)
             {

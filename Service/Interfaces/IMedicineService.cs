@@ -13,6 +13,7 @@ namespace Services.Interfaces
     {
         List<MedicineDTO> GetMedicineList();
         MedicineDTO GetMedicineById(int id);
+        MedicineDTO GetMedicineMostSelled();
         MedicineDTO CreateMedicine(MedicineViewModel product);
         MedicineDTO ModifyMedicine(MedicineViewModel product);
         MedicineDTO RemoveMedicine(int id);

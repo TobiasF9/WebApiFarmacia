@@ -21,12 +21,13 @@ namespace Services.Mappings.Profiles
             //.ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
 
             CreateMap<List<Sells>, List<SellsDTO>>()
-                .ConvertUsing(src => src.Select(e => new SellsDTO {Id = e.Id, IdMedicine = e.IdMedicine, IdUser = e.IdUser, SellDate = e.SellDate , Amount = e.Amount }).ToList());
+                .ConvertUsing(src => src.Select(e => new SellsDTO {Id = e.Id,  SellDate = e.SellDate , Amount = e.Amount }).ToList());
 
             CreateMap<SellsViewModel, Sells>();
 
             CreateMap<SellsViewModel, SellsDTO>();
             //.ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
         }
+        //IdMedicine = e.IdMedicine, IdUser = e.IdUser,
     }
 }
