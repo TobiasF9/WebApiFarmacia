@@ -14,7 +14,6 @@ namespace Services.Interfaces
     {
         List<UserDTO> GetUserList();
         UserDTO GetUserById(int id);
-        UserDTO CreateUser(UserViewModel user);
         UserDTO ModifyUser(UserViewModel user);
         UserDTO RemoveUser(int id);
     }

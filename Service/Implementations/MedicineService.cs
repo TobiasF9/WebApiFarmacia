@@ -63,7 +63,6 @@ namespace Services.Implementations
         }
         public MedicineDTO RemoveMedicine(int id)
         {
-            //acá el uso del mapper, está mal?
             var medicineToDelete = _context.Medicines.ToList().Where(x => x.Id == id).First();
             var response = _mapper.Map<MedicineDTO>(medicineToDelete);
             _context.Medicines.Remove(medicineToDelete);

@@ -61,24 +61,6 @@ namespace WebApiMedicines.Controllers
             }
             
         }
-        [HttpPost("Create")]
-        public ActionResult<UserDTO> CreateUser([FromBody] UserViewModel user)
-        {
-            try
-            {
-                var response = _userService.CreateUser(user);
-
-                string baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}";
-                string apiAndEndpointUrl = $"api/User/GetById";
-                string locationUrl = $"{baseUrl}/{apiAndEndpointUrl}/{response.Id}";
-                return Created(locationUrl, response);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogCustomError("Create", ex);
-                return BadRequest($"{ex.Message}");
-            }
-        }
 
         [HttpPut("Modify")]
         public ActionResult<UserDTO> ModifyUser([FromBody] UserViewModel user)
