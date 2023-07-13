@@ -15,7 +15,6 @@ namespace Services.Mappings.Profiles
         public MedicineProfile()
         {
             CreateMap<Medicines, MedicineDTO>();
-                //.ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
 
             CreateMap<List<Medicines>, List<MedicineDTO>>()
                 .ConvertUsing(src => src.Select(e => new MedicineDTO { Name = e.Name, Id = e.Id, Price = e.Price, Manufacturer = e.Manufacturer }).ToList());
@@ -23,7 +22,6 @@ namespace Services.Mappings.Profiles
             CreateMap<MedicineViewModel, Medicines>();
 
             CreateMap<MedicineViewModel, MedicineDTO>();
-                //.ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
         }
     }
 }

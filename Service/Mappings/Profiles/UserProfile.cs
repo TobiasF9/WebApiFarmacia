@@ -17,7 +17,6 @@ namespace Services.Mappings.Profiles
         public UserProfile()
         {
             CreateMap<Users, UserDTO>();
-            //.ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
 
             CreateMap<List<Users>, List<UserDTO>>()
                 .ConvertUsing(src => src.Select(e => new UserDTO { Name = e.Name, Id = e.Id, IdRole = e.IdRole, Email = e.Email}).ToList());
@@ -25,7 +24,6 @@ namespace Services.Mappings.Profiles
             CreateMap<UserViewModel, Users>();
 
             CreateMap<UserViewModel, UserDTO>();
-            //.ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
         }
     }
 }

@@ -43,10 +43,8 @@ namespace Services.Implementations
             _context.Users.Add(new Users()
             {
                 Name = User.Name,
-                //Apellido = User.Apellido,
                 Email = User.Email,
                 Password = User.Password.GetSHA256(),
-                //Dni = User.Dni,
                 IdRole = User.IdRole
             });
             _context.SaveChanges();

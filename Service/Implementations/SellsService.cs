@@ -86,10 +86,10 @@ namespace Services.Implementations
             _context.SaveChanges();
 
             var lastSell = _context.Sells
-    .Include(s => s.IdMedicineNavigation) // Cargar la propiedad de navegación del medicamento
-    .Include(s => s.IdUserNavigation) // Cargar la propiedad de navegación del usuario
-    .OrderBy(x => x.Id)
-    .LastOrDefault();
+            .Include(s => s.IdMedicineNavigation)
+            .Include(s => s.IdUserNavigation)
+            .OrderBy(x => x.Id)
+            .LastOrDefault();
             var response = (new SellsDTO()
             {
                 Id = lastSell.Id,
@@ -103,20 +103,13 @@ namespace Services.Implementations
 
         public SellsDTO ModifySell(SellsViewModel sell)
         {
-            //Sells sellToModify = _context.Sells.Where(s => s.Id == sell.Id).Where(s => s.IdMedicine == sell.IdMedicine).Where(s => s.IdUser == sell.IdUser).First();
-            //sellToModify.Id = sell.Id;
-            //sellToModify.IdMedicine = sell.IdMedicine;
-            //sellToModify.IdUser = sell.IdUser;
-            //sellToModify.SellDate = sell.SellDate;
-            //sellToModify.Amount = sell.Amount;
-
             Sells sellToModify = _context.Sells
-    .Include(s => s.IdMedicineNavigation) // Cargar la propiedad de navegación del medicamento
-    .Include(s => s.IdUserNavigation) // Cargar la propiedad de navegación del usuario
-    .Where(s => s.Id == sell.Id)
-    .Where(s => s.IdMedicine == sell.IdMedicine)
-    .Where(s => s.IdUser == sell.IdUser)
-    .First();
+            .Include(s => s.IdMedicineNavigation)
+            .Include(s => s.IdUserNavigation)
+            .Where(s => s.Id == sell.Id)
+            .Where(s => s.IdMedicine == sell.IdMedicine)
+            .Where(s => s.IdUser == sell.IdUser)
+            .First();
             sellToModify.Id = sell.Id;
             sellToModify.IdMedicine = sell.IdMedicine;
             sellToModify.IdUser = sell.IdUser;
@@ -138,7 +131,6 @@ namespace Services.Implementations
         public List<SellsDTO> RemoveSell(int id)
         {
             var SellsToDelete = _context.Sells.ToList().Where(x => x.Id == id);
-            //var response = _mapper.Map<SellsDTO>(SellsToDelete);
             List<SellsDTO> responseList = (from sell in _context.Sells
                                            join medicine in _context.Medicines
                                            on sell.IdMedicine equals medicine.Id
@@ -157,16 +149,11 @@ namespace Services.Implementations
                                        ).ToList();
 
             List<SellsDTO> response = responseList.Where(s => s.Id == id).ToList();
-            //List<SellsDTO> response = SellsToDelete.Where(s => s.Id == id).ToList();
             foreach (var item in SellsToDelete)
             {
                 _context.Sells.Remove(item);
             }
-            //_context.Sells.Remove(SellsToDelete);
             _context.SaveChanges();
-
-            
-
             return response;
             
         }
